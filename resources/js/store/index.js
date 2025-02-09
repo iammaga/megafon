@@ -1,49 +1,27 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
 
-export default createStore({
+const store = createStore({
     state: {
-        user: null,
-        token: localStorage.getItem('token') || ''
+        isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' // Проверка состояния при загрузке
     },
     mutations: {
-        setUser(state, user) {
-            state.user = user;
-        },
-        setToken(state, token) {
-            state.token = token;
-            localStorage.setItem('token', token);
+        login(state) {
+            state.isAuthenticated = true;
+            localStorage.setItem('isAuthenticated', 'true'); // Сохраняем статус в localStorage
         },
         logout(state) {
-            state.user = null;
-            state.token = '';
-            localStorage.removeItem('token');
+            state.isAuthenticated = false;
+            localStorage.removeItem('isAuthenticated'); // Удаляем статус при выходе
         }
     },
     actions: {
-        async register({ commit }, { name, email, password, role }) {
-            const response = await axios.post('http://localhost:8000/api/register', {
-                name,
-                email,
-                password,
-                role
-            });
-            commit('setToken', response.data.access_token);
-            commit('setUser', response.data.user);
-            return response;
-        },
-        async login({ commit }, { email, password }) {
-            const response = await axios.post('http://localhost:8000/api/login', { email, password });
-            commit('setToken', response.data.access_token);
-            commit('setUser', response.data.user);
-            return response;
+        login({ commit }) {
+            commit('login');
         },
         logout({ commit }) {
             commit('logout');
         }
-    },
-    getters: {
-        getUser: state => state.user,
-        getToken: state => state.token
     }
 });
+
+export default store;
