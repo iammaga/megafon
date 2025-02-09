@@ -15,7 +15,7 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:operator,back_office'
+            'role' => 'required|in:operator,back_office,admin'
         ]);
 
         $user = User::create([
@@ -35,7 +35,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -44,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Неверные учетные данные'], 401);
         }
 
         $user = Auth::user();
@@ -54,8 +53,10 @@ class AuthController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
+            'message' => 'Успешная авторизация!',
             'access_token' => $token,
-            'token_type' => 'Bearer'
+            'token_type' => 'Bearer',
+            'user' => $user
         ]);
     }
 

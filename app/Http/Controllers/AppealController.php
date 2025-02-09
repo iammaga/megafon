@@ -15,11 +15,7 @@ class AppealController extends Controller
      */
     public function index(Request $request)
     {
-        $user = auth()->user();
-
-        $appeals = $user->role === 'back_office'
-            ? Appeal::with('responsible')->paginate(10)
-            : Appeal::where('user_id', $user->id)->with('responsible')->paginate(10);
+        $appeals = Appeal::with('responsible')->paginate(10);
 
         return response()->json($appeals);
     }
