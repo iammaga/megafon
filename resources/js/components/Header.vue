@@ -4,12 +4,6 @@
             <div class="text-2xl font-bold text-green-500">MyApp</div>
             <ul class="flex space-x-6 items-center">
                 <li>
-                    <router-link to="/appeals" class="nav-link" :class="{ 'active-link': $route.path === '/appeals' }">Жалобы</router-link>
-                </li>
-                <li>
-                    <router-link to="/users" class="nav-link" :class="{ 'active-link': $route.path === '/users' }">Пользователи</router-link>
-                </li>
-                <li>
                     <button @click="handleLogout" class="btn-logout">
                         Выйти
                     </button>
