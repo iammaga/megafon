@@ -126,59 +126,53 @@
 </template>
 
 <script>
-import {ref} from 'vue';
-import {useStore} from 'vuex';
-import {useRouter} from 'vue-router';
+import axios from 'axios';
 
 export default {
-    name: 'LoginForm',
-    setup() {
-        const store = useStore();
-        const router = useRouter();
-        const isLogin = ref(true); // состояние для переключения между формами
-        const name = ref('');
-        const email = ref('');
-        const password = ref('');
-        const message = ref('');
-        const isSuccess = ref(false);
-
-        // Переключение формы
-        const toggleForm = () => {
-            isLogin.value = !isLogin.value;
+    data() {
+        return {
+            email: '',
+            password: '',
+            message: '',
+            isSuccess: false,
+            isLogin: true,
+            isAuthenticated: false, // Статус авторизации
         };
-
-        // Функция входа
-        const login = async () => {
+    },
+    mounted() {
+        this.checkAuth(); // Проверка авторизации при загрузке страницы
+    },
+    methods: {
+        async login() {
             try {
-                await store.dispatch('login', {email: email.value, password: password.value});
-                isSuccess.value = true;
-                message.value = 'Успешная авторизация!';
-                router.push('/appeals');
-            } catch (error) {
-                isSuccess.value = false;
-                message.value = error.response?.data?.message || 'Ошибка авторизации. Проверьте логин и пароль.';
-            }
-        };
-
-        // Функция регистрации
-        const register = async () => {
-            try {
-                await store.dispatch('register', {
-                    name: name.value,
-                    email: email.value,
-                    password: password.value,
-                    role: 'admin'
+                const response = await axios.post('http://localhost:8000/api/login', {
+                    email: this.email,
+                    password: this.password,
                 });
-                isSuccess.value = true;
-                message.value = 'Пользователь зарегистрирован!';
-                router.push('/appeals');
-            } catch (error) {
-                isSuccess.value = false;
-                message.value = error.response?.data?.message || 'Ошибка регистрации.';
-            }
-        };
 
-        return {name, email, password, message, isSuccess, login, register, isLogin, toggleForm};
+                const token = response.data.access_token;
+                localStorage.setItem('authToken', token); // Сохраняем токен
+                this.isAuthenticated = true;              // Устанавливаем статус авторизации
+
+                this.isSuccess = true;
+                this.message = 'Успешный вход!';
+
+                this.$router.push('/appeals'); // Перенаправление на главную страницу
+            } catch (error) {
+                console.error(error);
+                this.isSuccess = false;
+                this.message = 'Ошибка авторизации. Проверьте данные!';
+            }
+        },
+        checkAuth() {
+            const token = localStorage.getItem('authToken');
+            this.isAuthenticated = !!token; // Проверяем, есть ли токен
+        },
+        logout() {
+            localStorage.removeItem('authToken');
+            this.isAuthenticated = false;
+            this.message = 'Вы вышли из системы!';
+        }
     }
 };
 </script>
