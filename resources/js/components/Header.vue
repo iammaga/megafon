@@ -1,7 +1,11 @@
 <template>
     <header class="bg-white shadow-md">
         <nav class="container mx-auto flex justify-between items-center p-4">
-            <div class="text-2xl font-bold text-green-500">MyApp</div>
+            <div class="flex">
+                <img class="w-auto h-7 sm:h-8"
+                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/MegaFon_logo_without_text.svg/2048px-MegaFon_logo_without_text.svg.png"
+                     alt="Logo">
+            </div>
             <ul class="flex space-x-6 items-center">
                 <li>
                     <button @click="handleLogout" class="btn-logout">

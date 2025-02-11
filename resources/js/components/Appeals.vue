@@ -2,20 +2,29 @@
     <div class="container mx-auto my-8 px-4">
         <h1 class="text-2xl font-bold mb-4">Список обращений</h1>
 
-        <!-- Поле поиска -->
-        <div class="mb-4">
-            <input
-                v-model="searchQuery"
-                @input="searchAppeals"
-                type="text"
-                class="px-4 py-2 border rounded"
-                placeholder="Поиск по ФИО, телефону и т.д."
-            />
+        <div class="flex items-center justify-between w-full mb-4">
+            <!-- Поле поиска -->
+            <div class="flex-1 mr-4">
+                <input
+                    v-model="searchQuery"
+                    @input="searchAppeals"
+                    type="text"
+                    class="w-full px-4 py-2 border rounded"
+                    placeholder="Поиск по ФИО, телефону и т.д."
+                />
+            </div>
+
+            <!-- Кнопка создания новой жалобы -->
+            <button
+                @click="showModal = true"
+                class="px-4 py-2 bg-green-500 text-white rounded"
+            >
+                + Новая жалоба
+            </button>
         </div>
 
         <div v-if="loading" class="text-gray-500">Загрузка...</div>
         <div v-else>
-            <!-- Отображение обращений -->
             <div v-if="filteredAppeals.length > 0">
                 <div
                     v-for="appeal in filteredAppeals"
@@ -32,12 +41,10 @@
                 </div>
             </div>
 
-            <!-- Текст, если ничего не найдено -->
             <div v-else class="text-center text-gray-500 mt-4">
                 Обращений не найдено.
             </div>
 
-            <!-- Пагинация -->
             <div v-if="totalPages > 1" class="flex justify-between mt-4">
                 <button
                     v-if="currentPage > 1"
@@ -55,6 +62,41 @@
                 </button>
             </div>
         </div>
+
+        <!-- Модальное окно для создания жалобы -->
+        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                <h2 class="text-xl font-bold mb-4">Создать новую жалобу</h2>
+                <form @submit.prevent="createAppeal">
+                    <div class="mb-4">
+                        <label class="block font-semibold">ФИО клиента</label>
+                        <input v-model="newAppeal.client_name" type="text" required
+                               class="w-full border px-4 py-2 rounded"/>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">Телефон клиента</label>
+                        <input v-model="newAppeal.client_phone" type="text" required
+                               class="w-full border px-4 py-2 rounded"/>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">Лицевой счет</label>
+                        <input v-model="newAppeal.client_account" type="text" required
+                               class="w-full border px-4 py-2 rounded"/>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">Описание проблемы</label>
+                        <textarea v-model="newAppeal.description" required
+                                  class="w-full border px-4 py-2 rounded"></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" @click="showModal = false"
+                                class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -65,31 +107,33 @@ export default {
     name: 'Appeals',
     data() {
         return {
-            appeals: [],            // Данные обращений
-            filteredAppeals: [],    // Отфильтрованные обращения
-            loading: true,          // Состояние загрузки
-            searchQuery: '',        // Запрос поиска
-            currentPage: 1,         // Текущая страница
-            totalPages: 1,          // Общее количество страниц
+            appeals: [],
+            filteredAppeals: [],
+            loading: true,
+            searchQuery: '',
+            currentPage: 1,
+            totalPages: 1,
+            showModal: false, // Показывать модальное окно
+            newAppeal: {
+                client_name: '',
+                client_phone: '',
+                client_account: '',
+                description: '',
+            },
         };
     },
     mounted() {
         this.fetchAppeals();
     },
     methods: {
-        // Получение данных с сервера
         async fetchAppeals(page = 1) {
             try {
                 const token = localStorage.getItem('authToken');
                 const response = await axios.get(`http://localhost:8000/api/appeals?page=${page}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: {Authorization: `Bearer ${token}`},
                 });
-
-                // Присваиваем данные и пагинацию
                 this.appeals = response.data.data;
-                this.filteredAppeals = this.appeals; // Изначально все обращения отображаются
+                this.filteredAppeals = this.appeals;
                 this.currentPage = response.data.current_page;
                 this.totalPages = response.data.last_page;
             } catch (error) {
@@ -99,18 +143,16 @@ export default {
             }
         },
 
-        // Изменение страницы
         changePage(page) {
             this.fetchAppeals(page);
         },
 
-        // Поиск обращений
         searchAppeals() {
             if (this.searchQuery.trim() === '') {
                 this.filteredAppeals = this.appeals;
             } else {
+                const searchText = this.searchQuery.toLowerCase();
                 this.filteredAppeals = this.appeals.filter(appeal => {
-                    const searchText = this.searchQuery.toLowerCase();
                     return (
                         appeal.client_name.toLowerCase().includes(searchText) ||
                         appeal.client_phone.toLowerCase().includes(searchText) ||
@@ -122,6 +164,26 @@ export default {
                 });
             }
         },
+
+        async createAppeal() {
+            try {
+                const token = localStorage.getItem('authToken');
+                await axios.post('http://localhost:8000/api/appeals', this.newAppeal, {
+                    headers: {Authorization: `Bearer ${token}`},
+                });
+                this.showModal = false;
+                this.fetchAppeals(); // Обновление списка
+                this.newAppeal = {client_name: '', client_phone: '', client_account: '', description: ''};
+            } catch (error) {
+                console.error('Ошибка при создании жалобы:', error);
+            }
+        },
     },
 };
 </script>
+
+<style scoped>
+body.modal-open {
+    overflow: hidden;
+}
+</style>
