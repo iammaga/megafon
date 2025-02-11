@@ -22386,6 +22386,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentAppeal = _objectSpread({}, appeal); // Копируем данные в форму редактирования
       this.showModal = true;
     },
+    createNewAppeal: function createNewAppeal() {
+      this.isEdit = false;
+      this.currentAppeal = {
+        client_name: '',
+        client_phone: '',
+        client_account: '',
+        description: '',
+        status: 'new'
+      };
+      this.showModal = true;
+    },
     updateAppeal: function updateAppeal() {
       var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -22435,12 +22446,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 4:
               _this3.showModal = false;
               _this3.fetchAppeals(); // Обновление списка
-              _this3.currentAppeal = {
-                client_name: '',
-                client_phone: '',
-                client_account: '',
-                description: ''
-              };
+              _this3.createNewAppeal(); // Сбросить данные формы для новой жалобы
               _context3.next = 12;
               break;
             case 9:
@@ -22883,8 +22889,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "w-full px-4 py-2 border rounded",
     placeholder: "Поиск по ФИО, телефону и т.д."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопка создания новой жалобы "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return $data.showModal = true;
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.createNewAppeal && $options.createNewAppeal.apply($options, arguments);
     }),
     "class": "px-4 py-2 bg-green-500 text-white rounded"
   }, " + Новая жалоба ")]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, "Загрузка...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [$data.filteredAppeals.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredAppeals, function (appeal) {

@@ -16,7 +16,7 @@
 
             <!-- Кнопка создания новой жалобы -->
             <button
-                @click="showModal = true"
+                @click="createNewAppeal"
                 class="px-4 py-2 bg-green-500 text-white rounded"
             >
                 + Новая жалоба
@@ -195,7 +195,19 @@ export default {
 
         editAppeal(appeal) {
             this.isEdit = true;
-            this.currentAppeal = { ...appeal }; // Копируем данные в форму редактирования
+            this.currentAppeal = {...appeal}; // Копируем данные в форму редактирования
+            this.showModal = true;
+        },
+
+        createNewAppeal() {
+            this.isEdit = false;
+            this.currentAppeal = {
+                client_name: '',
+                client_phone: '',
+                client_account: '',
+                description: '',
+                status: 'new'
+            };
             this.showModal = true;
         },
 
@@ -220,7 +232,7 @@ export default {
                 });
                 this.showModal = false;
                 this.fetchAppeals(); // Обновление списка
-                this.currentAppeal = { client_name: '', client_phone: '', client_account: '', description: '' };
+                this.createNewAppeal(); // Сбросить данные формы для новой жалобы
             } catch (error) {
                 console.error('Ошибка при создании жалобы:', error);
             }
