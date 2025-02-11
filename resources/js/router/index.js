@@ -21,12 +21,13 @@ const router = createRouter({
     routes
 });
 
-// Проверка авторизации
 router.beforeEach((to, from, next) => {
     const isAuthenticated = !!localStorage.getItem('authToken');
 
     if (to.meta.requiresAuth && !isAuthenticated) {
         next('/login');
+    } else if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
+        next('/appeals');
     } else {
         next();
     }

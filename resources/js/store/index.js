@@ -2,21 +2,21 @@ import { createStore } from 'vuex';
 
 const store = createStore({
     state: {
-        isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' // Проверка состояния при загрузке
+        isAuthenticated: !!localStorage.getItem('authToken') // Проверка наличия токена при старте
     },
     mutations: {
-        login(state) {
+        login(state, token) {
             state.isAuthenticated = true;
-            localStorage.setItem('isAuthenticated', 'true'); // Сохраняем статус в localStorage
+            localStorage.setItem('authToken', token); // Сохраняем токен
         },
         logout(state) {
             state.isAuthenticated = false;
-            localStorage.removeItem('isAuthenticated'); // Удаляем статус при выходе
+            localStorage.removeItem('authToken'); // Удаляем токен при выходе
         }
     },
     actions: {
-        login({ commit }) {
-            commit('login');
+        login({ commit }, token) {
+            commit('login', token);
         },
         logout({ commit }) {
             commit('logout');

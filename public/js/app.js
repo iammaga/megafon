@@ -23197,12 +23197,12 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.createRouter)({
   history: (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.createWebHistory)(),
   routes: routes
 });
-
-// Проверка авторизации
 router.beforeEach(function (to, from, next) {
   var isAuthenticated = !!localStorage.getItem('authToken');
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login');
+  } else if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
+    next('/appeals');
   } else {
     next();
   }
@@ -23226,22 +23226,22 @@ __webpack_require__.r(__webpack_exports__);
 
 var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.createStore)({
   state: {
-    isAuthenticated: localStorage.getItem('isAuthenticated') === 'true' // Проверка состояния при загрузке
+    isAuthenticated: !!localStorage.getItem('authToken') // Проверка наличия токена при старте
   },
   mutations: {
-    login: function login(state) {
+    login: function login(state, token) {
       state.isAuthenticated = true;
-      localStorage.setItem('isAuthenticated', 'true'); // Сохраняем статус в localStorage
+      localStorage.setItem('authToken', token); // Сохраняем токен
     },
     logout: function logout(state) {
       state.isAuthenticated = false;
-      localStorage.removeItem('isAuthenticated'); // Удаляем статус при выходе
+      localStorage.removeItem('authToken'); // Удаляем токен при выходе
     }
   },
   actions: {
-    login: function login(_ref) {
+    login: function login(_ref, token) {
       var commit = _ref.commit;
-      commit('login');
+      commit('login', token);
     },
     logout: function logout(_ref2) {
       var commit = _ref2.commit;
@@ -23318,7 +23318,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.input-field[data-v-3563ad7c] {\n@apply w-full p-2 border rounded mb-3;\n}\n.btn[data-v-3563ad7c] {\n@apply w-full bg-[#09ba5c] text-white py-2 rounded hover:bg-green-700 transition;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.input-field[data-v-3563ad7c] {\n@apply w-full p-2 border rounded mb-3;\n}\n.btn[data-v-3563ad7c] {\n@apply w-full bg-[#09ba5c] text-white py-2 rounded hover:bg-green-700 transition;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
