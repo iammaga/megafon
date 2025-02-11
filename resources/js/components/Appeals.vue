@@ -38,6 +38,14 @@
                     <p><strong>Статус:</strong> {{ appeal.status }}</p>
                     <p><strong>Комментарий:</strong> {{ appeal.comment || 'Нет комментария' }}</p>
                     <p><strong>Создано:</strong> {{ new Date(appeal.created_at).toLocaleString() }}</p>
+
+                    <!-- Кнопка редактирования -->
+                    <button
+                        @click="editAppeal(appeal)"
+                        class="px-4 py-2 bg-yellow-500 text-black rounded mt-2"
+                    >
+                        Редактировать
+                    </button>
                 </div>
             </div>
 
@@ -63,30 +71,46 @@
             </div>
         </div>
 
-        <!-- Модальное окно для создания жалобы -->
+        <!-- Модальное окно для создания или редактирования жалобы -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h2 class="text-xl font-bold mb-4">Создать новую жалобу</h2>
-                <form @submit.prevent="createAppeal">
+                <h2 class="text-xl font-bold mb-4">{{ isEdit ? 'Редактировать жалобу' : 'Создать новую жалобу' }}</h2>
+                <form @submit.prevent="isEdit ? updateAppeal() : createAppeal">
                     <div class="mb-4">
                         <label class="block font-semibold">ФИО клиента</label>
-                        <input v-model="newAppeal.client_name" type="text" required
+                        <input v-model="currentAppeal.client_name" type="text" required
                                class="w-full border px-4 py-2 rounded"/>
                     </div>
                     <div class="mb-4">
                         <label class="block font-semibold">Телефон клиента</label>
-                        <input v-model="newAppeal.client_phone" type="text" required
+                        <input v-model="currentAppeal.client_phone" type="text" required
                                class="w-full border px-4 py-2 rounded"/>
                     </div>
                     <div class="mb-4">
                         <label class="block font-semibold">Лицевой счет</label>
-                        <input v-model="newAppeal.client_account" type="text" required
+                        <input v-model="currentAppeal.client_account" type="text" required
                                class="w-full border px-4 py-2 rounded"/>
                     </div>
                     <div class="mb-4">
                         <label class="block font-semibold">Описание проблемы</label>
-                        <textarea v-model="newAppeal.description" required
+                        <textarea v-model="currentAppeal.description" required
                                   class="w-full border px-4 py-2 rounded"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">Ответственное лицо</label>
+                        <input v-model="currentAppeal.responsible_person" type="text" class="w-full border px-4 py-2 rounded"/>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">Статус</label>
+                        <select v-model="currentAppeal.status" class="w-full border px-4 py-2 rounded">
+                            <option value="new">Новое</option>
+                            <option value="in_progress">В процессе</option>
+                            <option value="resolved">Решено</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold">Комментарий</label>
+                        <textarea v-model="currentAppeal.comment" class="w-full border px-4 py-2 rounded"></textarea>
                     </div>
                     <div class="flex justify-end">
                         <button type="button" @click="showModal = false"
@@ -114,11 +138,15 @@ export default {
             currentPage: 1,
             totalPages: 1,
             showModal: false, // Показывать модальное окно
-            newAppeal: {
+            isEdit: false, // Флаг редактирования
+            currentAppeal: {
                 client_name: '',
                 client_phone: '',
                 client_account: '',
                 description: '',
+                responsible_person: '',
+                status: '',
+                comment: '',
             },
         };
     },
@@ -165,15 +193,34 @@ export default {
             }
         },
 
-        async createAppeal() {
+        editAppeal(appeal) {
+            this.isEdit = true;
+            this.currentAppeal = { ...appeal }; // Копируем данные в форму редактирования
+            this.showModal = true;
+        },
+
+        async updateAppeal() {
             try {
                 const token = localStorage.getItem('authToken');
-                await axios.post('http://localhost:8000/api/appeals', this.newAppeal, {
+                await axios.put(`http://localhost:8000/api/appeals/${this.currentAppeal.id}`, this.currentAppeal, {
                     headers: {Authorization: `Bearer ${token}`},
                 });
                 this.showModal = false;
                 this.fetchAppeals(); // Обновление списка
-                this.newAppeal = {client_name: '', client_phone: '', client_account: '', description: ''};
+            } catch (error) {
+                console.error('Ошибка при обновлении жалобы:', error);
+            }
+        },
+
+        async createAppeal() {
+            try {
+                const token = localStorage.getItem('authToken');
+                await axios.post('http://localhost:8000/api/appeals', this.currentAppeal, {
+                    headers: {Authorization: `Bearer ${token}`},
+                });
+                this.showModal = false;
+                this.fetchAppeals(); // Обновление списка
+                this.currentAppeal = { client_name: '', client_phone: '', client_account: '', description: '' };
             } catch (error) {
                 console.error('Ошибка при создании жалобы:', error);
             }
