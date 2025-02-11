@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="min-h-screen bg-gray-100">
-        <Header v-if="isAuthenticated" />
+        <Header v-show="isAuthenticated" />
         <main class="p-4">
             <router-view />
         </main>
