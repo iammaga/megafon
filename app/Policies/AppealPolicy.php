@@ -27,7 +27,7 @@ class AppealPolicy
      */
     public function view(User $user, Appeal $appeal)
     {
-        return $this->viewAny($user);
+        return $this->viewAny($user) || $user->id === $appeal->user_id;
     }
 
     /**
@@ -80,7 +80,7 @@ class AppealPolicy
      */
     public function restore(User $user, Appeal $appeal)
     {
-        //
+        return $user->role_id === User::ADMIN;
     }
 
     /**
@@ -92,6 +92,6 @@ class AppealPolicy
      */
     public function forceDelete(User $user, Appeal $appeal)
     {
-        //
+        return $user->role_id === User::ADMIN;
     }
 }
