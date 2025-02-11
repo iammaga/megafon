@@ -16,14 +16,25 @@
         <div v-if="loading" class="text-gray-500">Загрузка...</div>
         <div v-else>
             <!-- Отображение обращений -->
-            <div v-for="appeal in filteredAppeals" :key="appeal.id" class="border p-4 rounded-lg shadow mb-4">
-                <p><strong>ФИО:</strong> {{ appeal.client_name }}</p>
-                <p><strong>Телефон:</strong> {{ appeal.client_phone }}</p>
-                <p><strong>Лиц. счет:</strong> {{ appeal.client_account }}</p>
-                <p><strong>Описание:</strong> {{ appeal.description }}</p>
-                <p><strong>Статус:</strong> {{ appeal.status }}</p>
-                <p><strong>Комментарий:</strong> {{ appeal.comment || 'Нет комментария' }}</p>
-                <p><strong>Создано:</strong> {{ new Date(appeal.created_at).toLocaleString() }}</p>
+            <div v-if="filteredAppeals.length > 0">
+                <div
+                    v-for="appeal in filteredAppeals"
+                    :key="appeal.id"
+                    class="border p-4 rounded-lg shadow mb-4"
+                >
+                    <p><strong>ФИО:</strong> {{ appeal.client_name }}</p>
+                    <p><strong>Телефон:</strong> {{ appeal.client_phone }}</p>
+                    <p><strong>Лиц. счет:</strong> {{ appeal.client_account }}</p>
+                    <p><strong>Описание:</strong> {{ appeal.description }}</p>
+                    <p><strong>Статус:</strong> {{ appeal.status }}</p>
+                    <p><strong>Комментарий:</strong> {{ appeal.comment || 'Нет комментария' }}</p>
+                    <p><strong>Создано:</strong> {{ new Date(appeal.created_at).toLocaleString() }}</p>
+                </div>
+            </div>
+
+            <!-- Текст, если ничего не найдено -->
+            <div v-else class="text-center text-gray-500 mt-4">
+                Обращений не найдено.
             </div>
 
             <!-- Пагинация -->
