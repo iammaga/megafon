@@ -1,27 +1,45 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
 
 const store = createStore({
     state: {
-        isAuthenticated: !!localStorage.getItem('authToken') // Проверка наличия токена при старте
+        isAuthenticated: !!localStorage.getItem('authToken'),
+        appeals: [],
     },
     mutations: {
-        login(state, token) {
-            state.isAuthenticated = true;
-            localStorage.setItem('authToken', token); // Сохраняем токен
+        setAppeals(state, appeals) {
+            state.appeals = appeals;
         },
-        logout(state) {
-            state.isAuthenticated = false;
-            localStorage.removeItem('authToken'); // Удаляем токен при выходе
-        }
+        clearAppeals(state) {
+            state.appeals = [];
+        },
+        setAuthentication(state, status) {
+            state.isAuthenticated = status;
+        },
     },
     actions: {
-        login({ commit }, token) {
-            commit('login', token);
+        async searchAppeals({ commit }, query) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await axios.get(`http://localhost:8000/api/appeals/search?query=${query}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                commit('setAppeals', response.data.data);
+            } catch (error) {
+                console.error('Ошибка при поиске обращений:', error);
+            }
+        },
+        clearAppeals({ commit }) {
+            commit('clearAppeals');
         },
         logout({ commit }) {
-            commit('logout');
-        }
-    }
+            // Удаляем токен из localStorage
+            localStorage.removeItem('authToken');
+            commit('setAuthentication', false);  // Обновляем статус аутентификации
+        },
+    },
 });
 
 export default store;
