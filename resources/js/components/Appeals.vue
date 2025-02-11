@@ -4,9 +4,9 @@
         <div v-if="loading" class="text-gray-500">Загрузка...</div>
         <div v-else>
             <div v-for="appeal in appeals" :key="appeal.id" class="border p-4 rounded-lg shadow mb-4">
-                <p><strong>Имя клиента:</strong> {{ appeal.client_name }}</p>
+                <p><strong>ФИО:</strong> {{ appeal.client_name }}</p>
                 <p><strong>Телефон:</strong> {{ appeal.client_phone }}</p>
-                <p><strong>Аккаунт:</strong> {{ appeal.client_account }}</p>
+                <p><strong>Лиц. счет:</strong> {{ appeal.client_account }}</p>
                 <p><strong>Описание:</strong> {{ appeal.description }}</p>
                 <p><strong>Статус:</strong> {{ appeal.status }}</p>
                 <p><strong>Комментарий:</strong> {{ appeal.comment || 'Нет комментария' }}</p>
