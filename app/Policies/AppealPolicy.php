@@ -12,7 +12,11 @@ class AppealPolicy
 
     public function viewAny(User $user)
     {
-        return in_array($user->role, ['operator', 'back_office', 'admin']);
+        return in_array($user->role_id, [
+            User::ADMIN,
+            User::OPERATOR,
+            User::BACK_OFFICE,
+        ]);
     }
 
     /**
@@ -34,7 +38,10 @@ class AppealPolicy
      */
     public function create(User $user)
     {
-        return in_array($user->role, ['operator', 'back_office']);
+        return in_array($user->role_id, [
+            User::OPERATOR,
+            User::BACK_OFFICE
+        ]);
     }
 
     /**
@@ -46,7 +53,10 @@ class AppealPolicy
      */
     public function update(User $user, Appeal $appeal)
     {
-        return $user->role === 'back_office' || $user->role === 'admin';
+        return in_array($user->role_id, [
+            User::ADMIN,
+            User::BACK_OFFICE,
+        ]);
     }
 
     /**
@@ -58,7 +68,7 @@ class AppealPolicy
      */
     public function delete(User $user, Appeal $appeal)
     {
-        return $user->role === 'admin';
+        return $user->role_id === User::ADMIN;
     }
 
     /**

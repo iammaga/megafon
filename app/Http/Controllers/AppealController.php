@@ -15,6 +15,8 @@ class AppealController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Appeal::class);
+
         $appeals = Appeal::with('responsible')->paginate(10);
 
         return response()->json($appeals);

@@ -11,7 +11,7 @@ class UserPolicy
 
     public function manage(User $user)
     {
-        return $user->role === 'admin';
+        return $user->role_id === User::ADMIN;
     }
 
     /**
@@ -22,7 +22,11 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return in_array($user->role, ['admin', 'operator', 'back_office']);
+        return in_array($user->role_id, [
+            User::ADMIN,
+            User::OPERATOR,
+            User::BACK_OFFICE
+        ]);
     }
 
     /**
@@ -34,7 +38,11 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $this->manage($user);
+        return in_array($user->role_id, [
+            User::ADMIN,
+            User::OPERATOR,
+            User::BACK_OFFICE
+        ]);
     }
 
     /**
@@ -45,7 +53,10 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $this->manage($user);
+        return in_array($user->role_id, [
+            User::ADMIN,
+            User::OPERATOR
+        ]);
     }
 
     /**
@@ -57,7 +68,10 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $this->manage($user);
+        return in_array($user->role_id, [
+            User::ADMIN,
+            User::OPERATOR
+        ]);
     }
 
     /**
@@ -81,7 +95,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        //
+        return $this->manage($user);
     }
 
     /**
@@ -93,6 +107,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        //
+        return $this->manage($user);
     }
 }

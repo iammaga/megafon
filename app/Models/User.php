@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ADMIN = 1;
+    const OPERATOR = 2;
+    const BACK_OFFICE = 3;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,6 +49,6 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
     }
 }
