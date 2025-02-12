@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto my-8 px-4">
+    <div class="container mx-auto mt-8 pb-4 px-4">
         <h1 class="text-2xl font-bold mb-4">Список обращений</h1>
 
         <div class="flex items-center justify-between w-full mb-4">
@@ -17,7 +17,7 @@
             <!-- Кнопка создания новой жалобы -->
             <button
                 @click="createNewAppeal"
-                class="px-4 py-2 bg-green-500 text-white rounded"
+                class="px-4 py-2 bg-green-500 text-black rounded"
             >
                 + Новая жалоба
             </button>
@@ -54,20 +54,24 @@
             </div>
 
             <div v-if="totalPages > 1" class="flex justify-between mt-4">
-                <button
-                    v-if="currentPage > 1"
-                    @click="changePage(currentPage - 1)"
-                    class="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                    Предыдущая
-                </button>
-                <button
-                    v-if="currentPage < totalPages"
-                    @click="changePage(currentPage + 1)"
-                    class="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                    Следующая
-                </button>
+                <div>
+                    <button
+                        v-if="currentPage > 1"
+                        @click="changePage(currentPage - 1)"
+                        class="px-4 py-2 bg-green-500 text-black rounded"
+                    >
+                        Предыдущая
+                    </button>
+                </div>
+                <div>
+                    <button
+                        v-if="currentPage < totalPages"
+                        @click="changePage(currentPage + 1)"
+                        class="px-4 py-2 bg-green-500 text-black rounded"
+                    >
+                        Следующая
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -116,7 +120,7 @@
                         <button type="button" @click="showModal = false"
                                 class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена
                         </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+                        <button type="submit" @click="createAppeal()" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
                     </div>
                 </form>
             </div>
@@ -215,10 +219,10 @@ export default {
             try {
                 const token = localStorage.getItem('authToken');
                 await axios.put(`http://localhost:8000/api/appeals/${this.currentAppeal.id}`, this.currentAppeal, {
-                    headers: {Authorization: `Bearer ${token}`},
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                this.showModal = false;
                 this.fetchAppeals(); // Обновление списка
+                this.showModal = false; // Закрытие модального окна после успешного редактирования
             } catch (error) {
                 console.error('Ошибка при обновлении жалобы:', error);
             }
@@ -228,15 +232,14 @@ export default {
             try {
                 const token = localStorage.getItem('authToken');
                 await axios.post('http://localhost:8000/api/appeals', this.currentAppeal, {
-                    headers: {Authorization: `Bearer ${token}`},
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                this.showModal = false;
                 this.fetchAppeals(); // Обновление списка
-                this.createNewAppeal(); // Сбросить данные формы для новой жалобы
+                this.showModal = false; // Закрытие модального окна после успешного сохранения
             } catch (error) {
                 console.error('Ошибка при создании жалобы:', error);
             }
-        },
+        }
     },
 };
 </script>
