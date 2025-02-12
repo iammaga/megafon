@@ -46,6 +46,9 @@
                     >
                         Редактировать
                     </button>
+                    <button @click="deleteAppeal(appeal.id)" class="bg-red-500 text-white px-4 py-2 ml-4 rounded">
+                        Удалить
+                    </button>
                 </div>
             </div>
 
@@ -239,7 +242,19 @@ export default {
             } catch (error) {
                 console.error('Ошибка при создании жалобы:', error);
             }
-        }
+        },
+
+        async deleteAppeal(id) {
+            try {
+                const token = localStorage.getItem('authToken');
+                await axios.delete(`http://localhost:8000/api/appeals/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                this.fetchAppeals(); // Обновление списка жалоб
+            } catch (error) {
+                console.error('Ошибка при удалении жалобы:', error);
+            }
+        },
     },
 };
 </script>

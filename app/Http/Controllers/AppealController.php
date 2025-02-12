@@ -93,9 +93,13 @@ class AppealController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Appeal  $appeal)
     {
-        //
+        $this->authorize('delete', $appeal);
+
+        $appeal->delete();
+
+        return response()->json(['message' => 'Жалоба успешно удалена.'], 200);
     }
 
     public function search(Request $request)

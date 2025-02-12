@@ -33,7 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [AppealController::class, 'store']);
         Route::get('{appeal}', [AppealController::class, 'show']);
         Route::put('{appeal}', [AppealController::class, 'update'])
-        ->middleware('can:update,appeal');
+            ->middleware('can:update,appeal');
+        Route::delete('{appeal}', [AppealController::class, 'destroy'])
+            ->middleware('can:delete,appeal');
     });
 
     Route::apiResource('users', UserController::class)
