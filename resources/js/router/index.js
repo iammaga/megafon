@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import LoginForm from "../components/LoginForm.vue";
 import Register from '../views/Register.vue';
 import Appeals from '../components/Appeals.vue';
+import Users from "../components/Users.vue";
 
 const routes = [
     { path: '/', name: 'Home', component: Home },
@@ -13,7 +14,8 @@ const routes = [
         name: 'Appeals',
         component: Appeals,
         meta: { requiresAuth: true }
-    }
+    },
+    { path: '/users', name: 'Users', component: Users, meta: { requiresAuth: true } },
 ];
 
 const router = createRouter({

@@ -61,7 +61,7 @@
                     <button
                         v-if="currentPage > 1"
                         @click="changePage(currentPage - 1)"
-                        class="px-4 py-2 bg-green-500 text-black rounded"
+                        class="px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-200"
                     >
                         Предыдущая
                     </button>
@@ -70,7 +70,7 @@
                     <button
                         v-if="currentPage < totalPages"
                         @click="changePage(currentPage + 1)"
-                        class="px-4 py-2 bg-green-500 text-black rounded"
+                        class="px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-200"
                     >
                         Следующая
                     </button>
