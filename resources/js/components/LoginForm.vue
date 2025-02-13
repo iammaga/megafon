@@ -54,7 +54,7 @@
 
                         <button
                             type="submit"
-                            class="w-full px-6 py-2 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors
+                            class="w-full px-6 py-2 my-4 text-sm font-medium tracking-wide text-white capitalize transition-colors
                                    duration-300 transform bg-green-500 rounded-lg hover:bg-green-600
                                    focus:outline-none focus:ring-2 focus:ring-green-400"
                         >
@@ -111,15 +111,6 @@
                         </button>
                     </div>
                 </form>
-            </div>
-
-            <div class="flex items-center justify-center py-4 text-center bg-gray-50 border-t border-green-500">
-                <span class="text-sm text-gray-600">
-                    {{ isLogin ? "Don't have an account?" : "Already have an account?" }}
-                </span>
-                <a href="#" @click.prevent="toggleForm" class="mx-2 text-sm font-bold text-green-500 hover:underline">
-                    {{ isLogin ? 'Register' : 'Login' }}
-                </a>
             </div>
         </div>
     </div>

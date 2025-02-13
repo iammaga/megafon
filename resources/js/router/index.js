@@ -1,14 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import LoginForm from "../components/LoginForm.vue";
-import Register from '../views/Register.vue';
 import Appeals from '../components/Appeals.vue';
 import Users from "../components/Users.vue";
 
 const routes = [
     { path: '/', name: 'Home', component: Home },
     { path: '/login', name: 'LoginForm', component: LoginForm },
-    { path: '/register', name: 'Register', component: Register },
     {
         path: '/appeals',
         name: 'Appeals',
@@ -28,7 +26,7 @@ router.beforeEach((to, from, next) => {
 
     if (to.meta.requiresAuth && !isAuthenticated) {
         next('/login');
-    } else if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
+    } else if ((to.path === '/login') && isAuthenticated) {
         next('/appeals');
     } else {
         next();
