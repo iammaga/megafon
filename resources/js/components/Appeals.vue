@@ -82,48 +82,51 @@
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <h2 class="text-xl font-bold mb-4">{{ isEdit ? 'Редактировать жалобу' : 'Создать новую жалобу' }}</h2>
-                <form @submit.prevent="isEdit ? updateAppeal() : createAppeal">
+                <form @submit.prevent="isEdit ? updateAppeal() : createAppeal()">
                     <div class="mb-4">
                         <label class="block font-semibold">ФИО клиента</label>
-                        <input v-model="currentAppeal.client_name" type="text" required
-                               class="w-full border px-4 py-2 rounded"/>
+                        <input v-model="currentAppeal.client_name" type="text" required class="w-full border px-4 py-2 rounded"/>
                     </div>
                     <div class="mb-4">
                         <label class="block font-semibold">Телефон клиента</label>
-                        <input v-model="currentAppeal.client_phone" type="text" required
-                               class="w-full border px-4 py-2 rounded"/>
+                        <input v-model="currentAppeal.client_phone" type="text" required class="w-full border px-4 py-2 rounded"/>
                     </div>
                     <div class="mb-4">
                         <label class="block font-semibold">Лицевой счет</label>
-                        <input v-model="currentAppeal.client_account" type="text" required
-                               class="w-full border px-4 py-2 rounded"/>
+                        <input v-model="currentAppeal.client_account" type="text" required class="w-full border px-4 py-2 rounded"/>
                     </div>
                     <div class="mb-4">
                         <label class="block font-semibold">Описание проблемы</label>
-                        <textarea v-model="currentAppeal.description" required
-                                  class="w-full border px-4 py-2 rounded"></textarea>
+                        <textarea v-model="currentAppeal.description" required class="w-full border px-4 py-2 rounded"></textarea>
                     </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold">Ответственное лицо</label>
-                        <input v-model="currentAppeal.responsible_person" type="text" class="w-full border px-4 py-2 rounded"/>
+
+                    <!-- Показываем только при редактировании -->
+                    <div v-if="isEdit">
+                        <div class="mb-4">
+                            <label class="block font-semibold">Ответственное лицо</label>
+                            <select v-model="currentAppeal.responsible_person" class="w-full border px-4 py-2 rounded">
+                                <option v-for="role in roles" :key="role.id" :value="role.id">
+                                    {{ role.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-semibold">Статус</label>
+                            <select v-model="currentAppeal.status" class="w-full border px-4 py-2 rounded">
+                                <option value="new">Новое</option>
+                                <option value="in_progress">В процессе</option>
+                                <option value="resolved">Решено</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block font-semibold">Комментарий</label>
+                            <textarea v-model="currentAppeal.comment" class="w-full border px-4 py-2 rounded"></textarea>
+                        </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold">Статус</label>
-                        <select v-model="currentAppeal.status" class="w-full border px-4 py-2 rounded">
-                            <option value="new">Новое</option>
-                            <option value="in_progress">В процессе</option>
-                            <option value="resolved">Решено</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold">Комментарий</label>
-                        <textarea v-model="currentAppeal.comment" class="w-full border px-4 py-2 rounded"></textarea>
-                    </div>
+
                     <div class="flex justify-end">
-                        <button type="button" @click="showModal = false"
-                                class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена
-                        </button>
-                        <button type="submit" @click="createAppeal()" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+                        <button type="button" @click="showModal = false" class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
                     </div>
                 </form>
             </div>
@@ -138,6 +141,7 @@ export default {
     name: 'Appeals',
     data() {
         return {
+            roles: [],
             appeals: [],
             filteredAppeals: [],
             loading: true,
@@ -159,6 +163,7 @@ export default {
     },
     mounted() {
         this.fetchAppeals();
+        this.fetchRoles();
     },
     methods: {
         async fetchAppeals(page = 1) {
@@ -232,15 +237,18 @@ export default {
         },
 
         async createAppeal() {
+            console.log("Отправляем жалобу:", this.currentAppeal); // Проверка данных
             try {
-                const token = localStorage.getItem('authToken');
-                await axios.post('http://localhost:8000/api/appeals', this.currentAppeal, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                this.fetchAppeals(); // Обновление списка
-                this.showModal = false; // Закрытие модального окна после успешного сохранения
+                const token = localStorage.getItem("authToken");
+                const response = await axios.post(
+                    "http://localhost:8000/api/appeals",
+                    this.currentAppeal,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                console.log("Ответ сервера:", response.data);
+                this.showModal = false;
             } catch (error) {
-                console.error('Ошибка при создании жалобы:', error);
+                console.error("Ошибка при создании жалобы:", error.response?.data || error);
             }
         },
 
@@ -255,6 +263,17 @@ export default {
                 console.error('Ошибка при удалении жалобы:', error);
             }
         },
+        async fetchRoles() {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await axios.get('http://localhost:8000/api/roles', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                this.roles = response.data; // Предполагаем, что API возвращает массив ролей
+            } catch (error) {
+                console.error('Ошибка при загрузке ролей:', error);
+            }
+        }
     },
 };
 </script>
