@@ -157,7 +157,11 @@ export default {
                 this.isSuccess = true;
                 this.message = 'Успешный вход!';
 
-                this.$router.push('/appeals'); // Перенаправление на главную страницу
+                // Вместо прямого редиректа используем Vuex для обновления состояния
+                this.$store.commit('setAuthentication', true);
+
+                this.$router.push('/appeals'); // Перенаправление на страницу "Appeals"
+
             } catch (error) {
                 console.error(error);
                 this.isSuccess = false;

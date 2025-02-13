@@ -19,6 +19,11 @@ const store = createStore({
         },
         setAuthentication(state, status) {
             state.isAuthenticated = status;
+            if (status) {
+                setTimeout(() => {
+                    window.location.reload(); // Принудительно обновляем страницу при входе
+                }, 100);
+            }
         },
     },
     actions: {

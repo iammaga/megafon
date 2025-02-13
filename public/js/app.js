@@ -22621,20 +22621,23 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
               _this.isSuccess = true;
               _this.message = 'Успешный вход!';
-              _this.$router.push('/appeals'); // Перенаправление на главную страницу
-              _context.next = 17;
+
+              // Вместо прямого редиректа используем Vuex для обновления состояния
+              _this.$store.commit('setAuthentication', true);
+              _this.$router.push('/appeals'); // Перенаправление на страницу "Appeals"
+              _context.next = 18;
               break;
-            case 12:
-              _context.prev = 12;
+            case 13:
+              _context.prev = 13;
               _context.t0 = _context["catch"](0);
               console.error(_context.t0);
               _this.isSuccess = false;
               _this.message = 'Ошибка авторизации. Проверьте данные!';
-            case 17:
+            case 18:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 12]]);
+        }, _callee, null, [[0, 13]]);
       }))();
     },
     checkAuth: function checkAuth() {
@@ -23980,6 +23983,11 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
     },
     setAuthentication: function setAuthentication(state, status) {
       state.isAuthenticated = status;
+      if (status) {
+        setTimeout(function () {
+          window.location.reload(); // Принудительно обновляем страницу при входе
+        }, 100);
+      }
     }
   },
   actions: {
