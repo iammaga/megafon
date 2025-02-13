@@ -104,7 +104,7 @@
             <button type="button" @click="showModal = false"
                     class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена
             </button>
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+            <button type="submit" @click="createUser()" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
           </div>
         </form>
       </div>
