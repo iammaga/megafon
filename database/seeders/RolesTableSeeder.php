@@ -17,7 +17,7 @@ class RolesTableSeeder extends Seeder
         $roles = ['admin', 'operator', 'back_office'];
 
         foreach ($roles as $role) {
-            Role::create(['name' => $role]);
+            Role::firstOrCreate(['name' => $role]);
         }
     }
 }
