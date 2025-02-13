@@ -16,7 +16,7 @@
 
       <!-- Кнопка создания нового пользователя -->
       <button
-          @click="createNewUser"
+          @click="createNewUser()"
           class="px-4 py-2 bg-green-500 text-black rounded"
       >
         + Новый пользователь
@@ -84,29 +84,27 @@
             <input v-model="currentUser.name" type="text" required
                    class="w-full border px-4 py-2 rounded"/>
           </div>
-<!--          <div class="mb-4">-->
-<!--            <label class="block font-semibold">Телефон</label>-->
-<!--            <input v-model="currentUser.phone" type="text" required-->
-<!--                   class="w-full border px-4 py-2 rounded"/>-->
-<!--          </div>-->
           <div class="mb-4">
             <label class="block font-semibold">Email</label>
             <input v-model="currentUser.email" type="email" required
                    class="w-full border px-4 py-2 rounded"/>
           </div>
+            <div class="mb-4">
+                <label class="block font-semibold">Пароль</label>
+                <input v-model="currentUser.password" type="text" required
+                       class="w-full border px-4 py-2 rounded"/>
+            </div>
           <div class="mb-4">
             <label class="block font-semibold">Роль</label>
             <select v-model="currentUser.role" class="w-full border px-4 py-2 rounded">
-              <option value="client">Клиент</option>
-              <option value="master">Мастер</option>
-              <option value="admin">Админ</option>
+              <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
             </select>
           </div>
           <div class="flex justify-end">
             <button type="button" @click="showModal = false"
                     class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена
             </button>
-            <button type="submit" @click="createNewUser()" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
           </div>
         </form>
       </div>
@@ -131,14 +129,16 @@ export default {
       isEdit: false, // Флаг редактирования
       currentUser: {
         name: '',
-        // phone: '',
+        password: '',
         email: '',
-        role: '',
+        role: 'client', // Добавил роль по умолчанию
       },
+      roles: [] // Массив ролей
     };
   },
   mounted() {
     this.fetchUsers();
+    this.fetchRoles();
   },
   methods: {
     async fetchUsers(page = 1) {
@@ -158,6 +158,18 @@ export default {
       }
     },
 
+    async fetchRoles() {
+      try {
+        const token = localStorage.getItem('authToken');
+        const response = await axios.get('http://localhost:8000/api/roles', {
+          headers: {Authorization: `Bearer ${token}`},
+        });
+        this.roles = response.data; // Сохраняем роли
+      } catch (error) {
+        console.error('Ошибка при получении ролей:', error);
+      }
+    },
+
     changePage(page) {
       this.fetchUsers(page);
     },
@@ -170,7 +182,7 @@ export default {
         this.filteredUsers = this.users.filter(user => {
           return (
               user.name.toLowerCase().includes(searchText) ||
-              // user.phone.toLowerCase().includes(searchText) ||
+              user.password.toLowerCase().includes(searchText) ||
               user.email.toLowerCase().includes(searchText)
           );
         });
@@ -183,44 +195,47 @@ export default {
       this.showModal = true;
     },
 
-    createNewUser() {
-      this.isEdit = false;
-      this.currentUser = {
-        name: '',
-        // phone: '',
-        email: '',
-        role: 'client',
-      };
-      this.showModal = true;
-    },
+      createNewUser() {
+          this.isEdit = false; // Устанавливаем флаг на создание нового пользователя
+          this.currentUser = {
+              name: '', // Пустое имя по умолчанию
+              password: '', // Пустой пароль по умолчанию
+              email: '', // Пустой email по умолчанию
+              role: 'client', // Роль по умолчанию
+          };
+          this.showModal = true; // Показываем модальное окно для создания нового пользователя
+      },
 
-    async updateUser() {
-      try {
-        const token = localStorage.getItem('authToken');
-        await axios.put(`http://localhost:8000/api/users/${this.currentUser.id}`, this.currentUser, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        this.fetchUsers(); // Обновление списка
-        this.showModal = false; // Закрытие модального окна после успешного редактирования
-      } catch (error) {
-        console.error('Ошибка при обновлении пользователя:', error);
-      }
-    },
+      async updateUser() {
+          try {
+              const token = localStorage.getItem('authToken');
+              await axios.put(`http://localhost:8000/api/users/${this.currentUser.id}`, this.currentUser, {
+                  headers: { Authorization: `Bearer ${token}` },
+              });
+              await this.fetchUsers(); // Обновление списка пользователей
+              this.showModal = false; // Закрытие модального окна
+              this.filteredUsers = this.users; // Обновляем список фильтрованных пользователей
+          } catch (error) {
+              console.error('Ошибка при обновлении пользователя:', error);
+          }
+      },
 
-    async createUser() {
-      try {
-        const token = localStorage.getItem('authToken');
-        await axios.post('http://localhost:8000/api/users', this.currentUser, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        this.fetchUsers(); // Обновление списка
-        this.showModal = false; // Закрытие модального окна после успешного сохранения
-      } catch (error) {
-        console.error('Ошибка при создании пользователя:', error);
-      }
-    },
+      async createUser() {
+          try {
+              const token = localStorage.getItem('authToken');
+              await axios.post('http://localhost:8000/api/users', this.currentUser, {
+                  headers: { Authorization: `Bearer ${token}` },
+              });
+              await this.fetchUsers(); // Обновление списка пользователей
+              this.showModal = false; // Закрытие модального окна
+              this.filteredUsers = this.users; // Обновляем список фильтрованных пользователей
+          } catch (error) {
+              console.error('Ошибка при создании пользователя:', error);
+          }
+      },
 
-    async deleteUser(id) {
+
+      async deleteUser(id) {
       try {
         const token = localStorage.getItem('authToken');
         await axios.delete(`http://localhost:8000/api/users/${id}`, {

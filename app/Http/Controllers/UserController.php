@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -38,19 +39,25 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
             'role' => 'required|in:operator,back_office,admin',
-        ], [
-            'email.unique' => 'Этот email уже зарегистрирован.',
-            'role.in' => 'Недопустимая роль.',
         ]);
+
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json(['error' => 'Этот email уже зарегистрирован.'], 400);
+        }
+
+        $role = Role::where('name', $request->role)->first();
+        if (!$role) {
+            return response()->json(['error' => 'Роль не найдена.'], 400);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role_id' => $role->id,
         ]);
 
         return response()->json([
@@ -84,16 +91,31 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'sometimes|string|email|max:255',
             'password' => 'sometimes|string|min:8',
             'role' => 'sometimes|in:operator,back_office,admin',
         ]);
 
-        if ($request->has('password')) {
-            $request->merge(['password' => Hash::make($request->password)]);
+        $data = $request->all();
+
+        if ($request->has('email') && User::where('email', $request->email)->where('id', '!=', $user->id)->exists()) {
+            return response()->json(['error' => 'Этот email уже зарегистрирован другим пользователем.'], 400);
         }
 
-        $user->update($request->all());
+        if ($request->has('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        if ($request->has('role')) {
+            $role = Role::where('name', $request->role)->first();
+            if (!$role) {
+                return response()->json(['error' => 'Роль не найдена.'], 400);
+            }
+            $data['role_id'] = $role->id;
+            unset($data['role']);
+        }
+
+        $user->update($data);
 
         return response()->json([
             'message' => 'Пользователь успешно обновлен.',

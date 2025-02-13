@@ -22738,14 +22738,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       // Флаг редактирования
       currentUser: {
         name: '',
-        // phone: '',
+        password: '',
         email: '',
-        role: ''
-      }
+        role: 'client' // Добавил роль по умолчанию
+      },
+      roles: [] // Массив ролей
     };
   },
   mounted: function mounted() {
     this.fetchUsers();
+    this.fetchRoles();
   },
   methods: {
     fetchUsers: function fetchUsers() {
@@ -22788,6 +22790,37 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee, null, [[1, 12, 15, 18]]);
       }))();
     },
+    fetchRoles: function fetchRoles() {
+      var _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var token, response;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              token = localStorage.getItem('authToken');
+              _context2.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default().get('http://localhost:8000/api/roles', {
+                headers: {
+                  Authorization: "Bearer ".concat(token)
+                }
+              });
+            case 4:
+              response = _context2.sent;
+              _this2.roles = response.data; // Сохраняем роли
+              _context2.next = 11;
+              break;
+            case 8:
+              _context2.prev = 8;
+              _context2.t0 = _context2["catch"](0);
+              console.error('Ошибка при получении ролей:', _context2.t0);
+            case 11:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[0, 8]]);
+      }))();
+    },
     changePage: function changePage(page) {
       this.fetchUsers(page);
     },
@@ -22797,9 +22830,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       } else {
         var searchText = this.searchQuery.toLowerCase();
         this.filteredUsers = this.users.filter(function (user) {
-          return user.name.toLowerCase().includes(searchText) ||
-          // user.phone.toLowerCase().includes(searchText) ||
-          user.email.toLowerCase().includes(searchText);
+          return user.name.toLowerCase().includes(searchText) || user.password.toLowerCase().includes(searchText) || user.email.toLowerCase().includes(searchText);
         });
       }
     },
@@ -22809,47 +22840,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.showModal = true;
     },
     createNewUser: function createNewUser() {
-      this.isEdit = false;
+      this.isEdit = false; // Устанавливаем флаг на создание нового пользователя
       this.currentUser = {
         name: '',
-        // phone: '',
+        // Пустое имя по умолчанию
+        password: '',
+        // Пустой пароль по умолчанию
         email: '',
-        role: 'client'
+        // Пустой email по умолчанию
+        role: 'client' // Роль по умолчанию
       };
-      this.showModal = true;
+      this.showModal = true; // Показываем модальное окно для создания нового пользователя
     },
     updateUser: function updateUser() {
-      var _this2 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var token;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              token = localStorage.getItem('authToken');
-              _context2.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_0___default().put("http://localhost:8000/api/users/".concat(_this2.currentUser.id), _this2.currentUser, {
-                headers: {
-                  Authorization: "Bearer ".concat(token)
-                }
-              });
-            case 4:
-              _this2.fetchUsers(); // Обновление списка
-              _this2.showModal = false; // Закрытие модального окна после успешного редактирования
-              _context2.next = 11;
-              break;
-            case 8:
-              _context2.prev = 8;
-              _context2.t0 = _context2["catch"](0);
-              console.error('Ошибка при обновлении пользователя:', _context2.t0);
-            case 11:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[0, 8]]);
-      }))();
-    },
-    createUser: function createUser() {
       var _this3 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var token;
@@ -22859,28 +22862,32 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context3.prev = 0;
               token = localStorage.getItem('authToken');
               _context3.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8000/api/users', _this3.currentUser, {
+              return axios__WEBPACK_IMPORTED_MODULE_0___default().put("http://localhost:8000/api/users/".concat(_this3.currentUser.id), _this3.currentUser, {
                 headers: {
                   Authorization: "Bearer ".concat(token)
                 }
               });
             case 4:
-              _this3.fetchUsers(); // Обновление списка
-              _this3.showModal = false; // Закрытие модального окна после успешного сохранения
-              _context3.next = 11;
+              _context3.next = 6;
+              return _this3.fetchUsers();
+            case 6:
+              // Обновление списка пользователей
+              _this3.showModal = false; // Закрытие модального окна
+              _this3.filteredUsers = _this3.users; // Обновляем список фильтрованных пользователей
+              _context3.next = 13;
               break;
-            case 8:
-              _context3.prev = 8;
+            case 10:
+              _context3.prev = 10;
               _context3.t0 = _context3["catch"](0);
-              console.error('Ошибка при создании пользователя:', _context3.t0);
-            case 11:
+              console.error('Ошибка при обновлении пользователя:', _context3.t0);
+            case 13:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[0, 8]]);
+        }, _callee3, null, [[0, 10]]);
       }))();
     },
-    deleteUser: function deleteUser(id) {
+    createUser: function createUser() {
       var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var token;
@@ -22890,24 +22897,59 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context4.prev = 0;
               token = localStorage.getItem('authToken');
               _context4.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8000/api/users', _this4.currentUser, {
+                headers: {
+                  Authorization: "Bearer ".concat(token)
+                }
+              });
+            case 4:
+              _context4.next = 6;
+              return _this4.fetchUsers();
+            case 6:
+              // Обновление списка пользователей
+              _this4.showModal = false; // Закрытие модального окна
+              _this4.filteredUsers = _this4.users; // Обновляем список фильтрованных пользователей
+              _context4.next = 13;
+              break;
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](0);
+              console.error('Ошибка при создании пользователя:', _context4.t0);
+            case 13:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[0, 10]]);
+      }))();
+    },
+    deleteUser: function deleteUser(id) {
+      var _this5 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var token;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.prev = 0;
+              token = localStorage.getItem('authToken');
+              _context5.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/users/".concat(id), {
                 headers: {
                   Authorization: "Bearer ".concat(token)
                 }
               });
             case 4:
-              _this4.fetchUsers(); // Обновление списка пользователей
-              _context4.next = 10;
+              _this5.fetchUsers(); // Обновление списка пользователей
+              _context5.next = 10;
               break;
             case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4["catch"](0);
-              console.error('Ошибка при удалении пользователя:', _context4.t0);
+              _context5.prev = 7;
+              _context5.t0 = _context5["catch"](0);
+              console.error('Ошибка при удалении пользователя:', _context5.t0);
             case 10:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
-        }, _callee4, null, [[0, 7]]);
+        }, _callee5, null, [[0, 7]]);
       }))();
     }
   }
@@ -23570,10 +23612,14 @@ var _hoisted_16 = {
   "class": "mb-4"
 };
 var _hoisted_17 = {
+  "class": "mb-4"
+};
+var _hoisted_18 = ["value"];
+var _hoisted_19 = {
   "class": "flex justify-end"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-2xl font-bold mb-4"
   }, "Список пользователей", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Поле поиска "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -23586,8 +23632,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "w-full px-4 py-2 border rounded",
     placeholder: "Поиск по имени, телефону и т.д."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопка создания нового пользователя "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.createNewUser && $options.createNewUser.apply($options, arguments);
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.createNewUser();
     }),
     "class": "px-4 py-2 bg-green-500 text-black rounded"
   }, " + Новый пользователь ")]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, "Загрузка...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [$data.filteredUsers.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredUsers, function (user) {
@@ -23630,7 +23676,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     required: "",
     "class": "w-full border px-4 py-2 rounded"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("          <div class=\"mb-4\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <label class=\"block font-semibold\">Телефон</label>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <input v-model=\"currentUser.phone\" type=\"text\" required"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                   class=\"w-full border px-4 py-2 rounded\"/>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("          </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block font-semibold"
   }, "Email", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
@@ -23639,32 +23685,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "email",
     required: "",
     "class": "w-full border px-4 py-2 rounded"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "block font-semibold"
+  }, "Пароль", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $data.currentUser.password = $event;
+    }),
+    type: "text",
+    required: "",
+    "class": "w-full border px-4 py-2 rounded"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block font-semibold"
   }, "Роль", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.currentUser.role = $event;
     }),
     "class": "w-full border px-4 py-2 rounded"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "client"
-  }, "Клиент", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "master"
-  }, "Мастер", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "admin"
-  }, "Админ", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentUser.role]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.roles, function (role) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: role.id,
+      value: role.name
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(role.name), 9 /* TEXT, PROPS */, _hoisted_18);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentUser.role]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    onClick: _cache[8] || (_cache[8] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $data.showModal = false;
     }),
     "class": "px-4 py-2 bg-gray-400 text-white rounded mr-2"
-  }, "Отмена "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Отмена "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    onClick: _cache[9] || (_cache[9] = function ($event) {
-      return $options.createNewUser();
-    }),
     "class": "px-4 py-2 bg-blue-500 text-white rounded"
-  }, "Сохранить")])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, "Сохранить", -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
