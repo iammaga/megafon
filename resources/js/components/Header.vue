@@ -7,7 +7,7 @@
                      alt="Logo">
             </div>
             <ul class="flex space-x-6 items-center">
-                <li>
+                <li v-if="isAdmin">
                     <button @click="goToUsers"
                             class="px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-100">
                         Пользователи
@@ -25,10 +25,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'Header',
+    computed: {
+        ...mapGetters(['isAdmin']),
+    },
     methods: {
         ...mapActions(['logout']),
         handleLogout() {
@@ -36,33 +39,11 @@ export default {
             this.$router.push('/');
         },
         goToUsers() {
-            this.$router.push('/users'); // Навигация на страницу пользователей
+            this.$router.push('/users');
         }
+    },
+    created() {
+        this.$store.dispatch('fetchUser');
     }
 };
 </script>
-
-<style scoped>
-/* Стиль для кнопок */
-.btn-logout, .btn-users {
-    @apply flex items-center px-4 py-2 rounded transition-transform duration-300;
-    @apply hover:scale-105 hover:shadow-lg;
-}
-
-.btn-users {
-    @apply bg-yellow-500 text-black;
-}
-
-.btn-logout {
-    @apply bg-red-500 text-white;
-}
-
-/* Навигация */
-.nav-link {
-    @apply text-gray-600 hover:text-green-500 transition-colors duration-300 font-medium;
-}
-
-.active-link {
-    @apply text-green-500 font-semibold border-b-2 border-green-500;
-}
-</style>

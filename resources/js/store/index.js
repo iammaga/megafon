@@ -4,9 +4,13 @@ import axios from 'axios';
 const store = createStore({
     state: {
         isAuthenticated: !!localStorage.getItem('authToken'),
+        user: null,
         appeals: [],
     },
     mutations: {
+        setUser(state, user) {
+            state.user = user;
+        },
         setAppeals(state, appeals) {
             state.appeals = appeals;
         },
@@ -18,26 +22,31 @@ const store = createStore({
         },
     },
     actions: {
-        async searchAppeals({ commit }, query) {
+        async fetchUser({ commit }) {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await axios.get(`http://localhost:8000/api/appeals/search?query=${query}`, {
+                const response = await axios.get('http://localhost:8000/api/user', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                commit('setAppeals', response.data.data);
+                commit('setUser', response.data);
             } catch (error) {
-                console.error('Ошибка при поиске обращений:', error);
+                console.error('Ошибка при получении данных о пользователе:', error);
             }
         },
-        clearAppeals({ commit }) {
-            commit('clearAppeals');
-        },
-        logout({ commit }) {
-            // Удаляем токен из localStorage
+        async logout({ commit }) {
             localStorage.removeItem('authToken');
-            commit('setAuthentication', false);  // Обновляем статус аутентификации
+            commit('setAuthentication', false);
+            commit('setUser', null);
+        },
+    },
+    getters: {
+        isAdmin(state) {
+            return state.user && state.user.role_id === 1;
+        },
+        isAuthenticated(state) {
+            return state.isAuthenticated;
         },
     },
 });
