@@ -22830,7 +22830,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       } else {
         var searchText = this.searchQuery.toLowerCase();
         this.filteredUsers = this.users.filter(function (user) {
-          return user.name.toLowerCase().includes(searchText) || user.password.toLowerCase().includes(searchText) || user.email.toLowerCase().includes(searchText);
+          return user.name.toLowerCase().includes(searchText) ||
+          // user.password.toLowerCase().includes(searchText) ||
+          user.email.toLowerCase().includes(searchText);
         });
       }
     },

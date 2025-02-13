@@ -182,7 +182,7 @@ export default {
         this.filteredUsers = this.users.filter(user => {
           return (
               user.name.toLowerCase().includes(searchText) ||
-              user.password.toLowerCase().includes(searchText) ||
+              // user.password.toLowerCase().includes(searchText) ||
               user.email.toLowerCase().includes(searchText)
           );
         });
