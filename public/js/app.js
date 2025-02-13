@@ -23701,7 +23701,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.currentUser.password = $event;
     }),
     type: "text",
-    required: "",
     "class": "w-full border px-4 py-2 rounded"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block font-semibold"

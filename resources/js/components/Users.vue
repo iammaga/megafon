@@ -91,7 +91,7 @@
           </div>
             <div class="mb-4">
                 <label class="block font-semibold">Пароль</label>
-                <input v-model="currentUser.password" type="text" required
+                <input v-model="currentUser.password" type="text"
                        class="w-full border px-4 py-2 rounded"/>
             </div>
           <div class="mb-4">
