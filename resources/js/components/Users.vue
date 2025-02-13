@@ -189,11 +189,14 @@ export default {
       }
     },
 
-    editUser(user) {
-      this.isEdit = true;
-      this.currentUser = {...user}; // Копируем данные в форму редактирования
-      this.showModal = true;
-    },
+      editUser(user) {
+          this.isEdit = true;
+          this.currentUser = {
+              ...user,
+              role: user.role.name, // Явно присваиваем строковое значение роли
+          };
+          this.showModal = true;
+      },
 
       createNewUser() {
           this.isEdit = false; // Устанавливаем флаг на создание нового пользователя

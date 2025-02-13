@@ -22842,7 +22842,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     editUser: function editUser(user) {
       this.isEdit = true;
-      this.currentUser = _objectSpread({}, user); // Копируем данные в форму редактирования
+      this.currentUser = _objectSpread(_objectSpread({}, user), {}, {
+        role: user.role.name // Явно присваиваем строковое значение роли
+      });
       this.showModal = true;
     },
     createNewUser: function createNewUser() {
