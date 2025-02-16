@@ -125,7 +125,7 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="button" @click="showModal = false" class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена</button>
+                        <button type="button" @click="showModal = false" class="px-4 py-2 bg-gray-400 text-black rounded mr-2">Отмена</button>
                         <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
                     </div>
                 </form>
@@ -283,7 +283,7 @@ export default {
                 const response = await axios.get('http://localhost:8000/api/users', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                console.log(response.data.data)
+                // console.log(response.data.data)
                 this.users = response.data.data; // Предполагаем, что API возвращает массив ролей
             } catch (error) {
                 console.error('Ошибка при загрузке ролей:', error);

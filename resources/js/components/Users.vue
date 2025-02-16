@@ -102,7 +102,7 @@
           </div>
           <div class="flex justify-end">
             <button type="button" @click="showModal = false"
-                    class="px-4 py-2 bg-gray-400 text-white rounded mr-2">Отмена
+                    class="px-4 py-2 bg-gray-400 text-black rounded mr-2">Отмена
             </button>
             <button type="submit" @click="createUser()" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
           </div>

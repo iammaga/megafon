@@ -22544,19 +22544,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 4:
               response = _context6.sent;
-              console.log(response.data.data);
+              // console.log(response.data.data)
               _this6.users = response.data.data; // Предполагаем, что API возвращает массив ролей
-              _context6.next = 12;
+              _context6.next = 11;
               break;
-            case 9:
-              _context6.prev = 9;
+            case 8:
+              _context6.prev = 8;
               _context6.t0 = _context6["catch"](0);
               console.error('Ошибка при загрузке ролей:', _context6.t0);
-            case 12:
+            case 11:
             case "end":
               return _context6.stop();
           }
-        }, _callee6, null, [[0, 9]]);
+        }, _callee6, null, [[0, 8]]);
       }))();
     }
   }
@@ -23300,7 +23300,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[12] || (_cache[12] = function ($event) {
       return $data.showModal = false;
     }),
-    "class": "px-4 py-2 bg-gray-400 text-white rounded mr-2"
+    "class": "px-4 py-2 bg-gray-400 text-black rounded mr-2"
   }, "Отмена"), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "px-4 py-2 bg-blue-500 text-white rounded"
@@ -23751,7 +23751,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[9] || (_cache[9] = function ($event) {
       return $data.showModal = false;
     }),
-    "class": "px-4 py-2 bg-gray-400 text-white rounded mr-2"
+    "class": "px-4 py-2 bg-gray-400 text-black rounded mr-2"
   }, "Отмена "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     onClick: _cache[10] || (_cache[10] = function ($event) {
