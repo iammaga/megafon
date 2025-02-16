@@ -22304,6 +22304,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   data: function data() {
     return {
       roles: [],
+      users: [],
       appeals: [],
       filteredAppeals: [],
       loading: true,
@@ -22321,12 +22322,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         description: '',
         responsible_person: '',
         status: '',
-        comment: ''
+        comment: '',
+        assigned_to: ''
       }
     };
   },
   mounted: function mounted() {
     this.fetchAppeals();
+    this.fetchUsers();
     this.fetchRoles();
   },
   methods: {
@@ -22522,6 +22525,38 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return _context5.stop();
           }
         }, _callee5, null, [[0, 8]]);
+      }))();
+    },
+    fetchUsers: function fetchUsers() {
+      var _this6 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var token, response;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.prev = 0;
+              token = localStorage.getItem('authToken');
+              _context6.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default().get('http://localhost:8000/api/users', {
+                headers: {
+                  Authorization: "Bearer ".concat(token)
+                }
+              });
+            case 4:
+              response = _context6.sent;
+              console.log(response.data.data);
+              _this6.users = response.data.data; // Предполагаем, что API возвращает массив ролей
+              _context6.next = 12;
+              break;
+            case 9:
+              _context6.prev = 9;
+              _context6.t0 = _context6["catch"](0);
+              console.error('Ошибка при загрузке ролей:', _context6.t0);
+            case 12:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6, null, [[0, 9]]);
       }))();
     }
   }
@@ -23231,15 +23266,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "block font-semibold"
   }, "Ответственное лицо", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      return $data.currentAppeal.responsible_person = $event;
+      return $data.currentAppeal.assigned_to = $event;
     }),
+    id: "assigned_to",
     "class": "w-full border px-4 py-2 rounded"
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.roles, function (role) {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.users, function (user) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: role.id,
-      value: role.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(role.name), 9 /* TEXT, PROPS */, _hoisted_20);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentAppeal.responsible_person]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      key: user.id,
+      value: user.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 9 /* TEXT, PROPS */, _hoisted_20);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentAppeal.assigned_to]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block font-semibold"
   }, "Статус", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {

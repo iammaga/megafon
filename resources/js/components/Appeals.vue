@@ -104,9 +104,9 @@
                     <div v-if="isEdit">
                         <div class="mb-4">
                             <label class="block font-semibold">Ответственное лицо</label>
-                            <select v-model="currentAppeal.responsible_person" class="w-full border px-4 py-2 rounded">
-                                <option v-for="role in roles" :key="role.id" :value="role.id">
-                                    {{ role.name }}
+                            <select v-model="currentAppeal.assigned_to" id="assigned_to" class="w-full border px-4 py-2 rounded">
+                                <option v-for="user in users" :key="user.id" :value="user.id">
+                                    {{ user.name }}
                                 </option>
                             </select>
                         </div>
@@ -142,6 +142,7 @@ export default {
     data() {
         return {
             roles: [],
+            users: [],
             appeals: [],
             filteredAppeals: [],
             loading: true,
@@ -158,11 +159,13 @@ export default {
                 responsible_person: '',
                 status: '',
                 comment: '',
+                assigned_to: '',
             },
         };
     },
     mounted() {
         this.fetchAppeals();
+        this.fetchUsers();
         this.fetchRoles();
     },
     methods: {
@@ -270,6 +273,18 @@ export default {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 this.roles = response.data; // Предполагаем, что API возвращает массив ролей
+            } catch (error) {
+                console.error('Ошибка при загрузке ролей:', error);
+            }
+        },
+        async fetchUsers() {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await axios.get('http://localhost:8000/api/users', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                console.log(response.data.data)
+                this.users = response.data.data; // Предполагаем, что API возвращает массив ролей
             } catch (error) {
                 console.error('Ошибка при загрузке ролей:', error);
             }

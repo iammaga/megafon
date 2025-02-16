@@ -17,7 +17,8 @@ class Appeal extends Model
         'description',
         'status',
         'comment',
-        'user_id'
+        'user_id',
+        'assigned_to',
     ];
 
     public function user()
