@@ -7,6 +7,9 @@
                      alt="Logo">
             </div>
             <ul class="flex space-x-6 items-center">
+                <li v-if="user">
+                    <span class="text-gray-700 font-medium">{{ user.email }}</span>
+                </li>
                 <li v-if="isAdmin">
                     <button @click="goToUsers"
                             class="px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-100">
@@ -30,6 +33,7 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 export default {
     name: 'Header',
     computed: {
+        ...mapState(['user']),
         ...mapGetters(['isAdmin']),
     },
     methods: {
