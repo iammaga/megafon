@@ -22585,6 +22585,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Header',
+  data: function data() {
+    return {
+      isMenuOpen: false
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['user'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['isAdmin'])),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['logout'])), {}, {
     handleLogout: function handleLogout() {
@@ -22593,9 +22598,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     goToUsers: function goToUsers() {
       this.$router.push('/users');
+      this.isMenuOpen = false;
     },
     goToAppeals: function goToAppeals() {
       this.$router.push('/appeals');
+      this.isMenuOpen = false;
+    },
+    toggleMenu: function toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
     }
   }),
   created: function created() {
@@ -23332,27 +23342,44 @@ var _hoisted_2 = {
   "class": "container mx-auto flex justify-between items-center p-4"
 };
 var _hoisted_3 = {
-  "class": "flex"
+  "class": "hidden md:flex space-x-4"
 };
 var _hoisted_4 = {
-  key: 0,
-  "class": "px-2"
-};
-var _hoisted_5 = {
-  key: 1,
-  "class": "px-2"
-};
-var _hoisted_6 = {
-  "class": "flex space-x-6 items-center"
-};
-var _hoisted_7 = {
   key: 0
 };
+var _hoisted_5 = {
+  key: 1
+};
+var _hoisted_6 = {
+  key: 0,
+  "class": "absolute top-16 left-0 w-full bg-white shadow-md md:hidden"
+};
+var _hoisted_7 = {
+  "class": "flex flex-col space-y-2 p-4"
+};
 var _hoisted_8 = {
+  key: 0
+};
+var _hoisted_9 = {
+  "class": "block text-center text-gray-700 font-medium px-4 py-2"
+};
+var _hoisted_10 = {
+  key: 1
+};
+var _hoisted_11 = {
+  key: 2
+};
+var _hoisted_12 = {
+  "class": "hidden md:flex space-x-6 items-center"
+};
+var _hoisted_13 = {
+  key: 0
+};
+var _hoisted_14 = {
   "class": "text-gray-700 font-medium"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_2, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "flex items-center space-x-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     "class": "w-auto h-7 sm:h-8",
@@ -23362,17 +23389,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.goToAppeals && $options.goToAppeals.apply($options, arguments);
     }),
-    "class": "px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-100"
+    "class": "flex justify-center items-center w-36 px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100"
   }, " Обращения ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isAdmin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.goToUsers && $options.goToUsers.apply($options, arguments);
     }),
-    "class": "px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-100"
-  }, " Пользователи ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_6, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.email), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "flex justify-center items-center w-36 px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100"
+  }, " Пользователи ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
+      return $options.toggleMenu && $options.toggleMenu.apply($options, arguments);
+    }),
+    "class": "md:hidden text-gray-700 focus:outline-none"
+  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+    "class": "w-6 h-6",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "2",
+    d: "M4 6h16M4 12h16m-7 6h7"
+  })], -1 /* HOISTED */)])), $data.isMenuOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_7, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.email), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isAdmin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.goToAppeals && $options.goToAppeals.apply($options, arguments);
+    }),
+    "class": "flex justify-center items-center w-full px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100"
+  }, " Обращения ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isAdmin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.goToUsers && $options.goToUsers.apply($options, arguments);
+    }),
+    "class": "flex justify-center items-center w-full px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100"
+  }, " Пользователи ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.handleLogout && $options.handleLogout.apply($options, arguments);
     }),
-    "class": "px-4 py-2 bg-red-500 text-white rounded transition-transform duration-300 hover:bg-red-600"
+    "class": "flex justify-center items-center w-full px-4 py-2 bg-red-500 text-white rounded transition duration-300 hover:bg-red-600"
+  }, " Выйти ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.email), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.handleLogout && $options.handleLogout.apply($options, arguments);
+    }),
+    "class": "flex justify-center items-center w-32 px-4 py-2 bg-red-500 text-white rounded transition duration-300 hover:bg-red-600"
   }, " Выйти ")])])])]);
 }
 
