@@ -55,6 +55,7 @@ class AppealPolicy
     {
         return in_array($user->role_id, [
             User::ADMIN,
+            User::OPERATOR,
             User::BACK_OFFICE,
         ]);
     }
