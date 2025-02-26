@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "lucide-vue-next": "^0.476.0",
         "vue-router": "^4.0.13",
         "vuex": "^4.0.2"
     }

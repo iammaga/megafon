@@ -5,21 +5,26 @@
         <div class="flex items-center justify-between w-full mb-4">
             <!-- Поле поиска -->
             <div class="flex-1 mr-4">
-                <input
-                    v-model="searchQuery"
-                    @input="searchAppeals"
-                    type="text"
-                    class="w-full px-4 py-2 border rounded"
-                    placeholder="Поиск по ФИО, телефону и т.д."
-                />
+                <div class="relative">
+                    <search-icon class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size="20" />
+                    <input
+                        v-model="searchQuery"
+                        @input="searchAppeals"
+                        type="text"
+                        class="w-full pl-10 pr-4 py-2 border rounded"
+                        placeholder="Поиск по ФИО, телефону и т.д."
+                    />
+                </div>
             </div>
 
             <!-- Кнопка создания новой жалобы -->
             <button
                 @click="createNewAppeal"
-                class="px-4 py-2 bg-green-500 text-black rounded"
+                class="p-2 bg-green-500 text-black rounded flex items-center justify-center"
+                :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
             >
-                + Новая жалоба
+                <plus-icon size="20" />
+                <span class="hidden md:inline ml-2">Новая жалоба</span>
             </button>
         </div>
 
@@ -39,16 +44,25 @@
                     <p><strong>Комментарий:</strong> {{ appeal.comment || 'Нет комментария' }}</p>
                     <p><strong>Создано:</strong> {{ new Date(appeal.created_at).toLocaleString() }}</p>
 
-                    <!-- Кнопка редактирования -->
-                    <button
-                        @click="editAppeal(appeal)"
-                        class="px-4 py-2 bg-yellow-500 text-black rounded mt-2"
-                    >
-                        Редактировать
-                    </button>
-                    <button @click="deleteAppeal(appeal.id)" class="bg-red-500 text-white px-4 py-2 ml-4 rounded">
-                        Удалить
-                    </button>
+                    <!-- Кнопки действий -->
+                    <div class="flex text-center mt-2 space-x-2">
+                        <button
+                            @click="editAppeal(appeal)"
+                            class="p-2 bg-yellow-500 text-black rounded flex items-center justify-center"
+                            :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
+                        >
+                            <edit-icon size="20" />
+                            <span class="hidden md:inline ml-2">Редактировать</span>
+                        </button>
+                        <button
+                            @click="deleteAppeal(appeal.id)"
+                            class="p-2 bg-red-500 text-white rounded flex items-center justify-center"
+                            :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
+                        >
+                            <trash-2-icon size="20" />
+                            <span class="hidden md:inline ml-2">Удалить</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -57,24 +71,24 @@
             </div>
 
             <div v-if="totalPages > 1" class="flex justify-between mt-4">
-                <div>
-                    <button
-                        v-if="currentPage > 1"
-                        @click="changePage(currentPage - 1)"
-                        class="px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-200"
-                    >
-                        Предыдущая
-                    </button>
-                </div>
-                <div>
-                    <button
-                        v-if="currentPage < totalPages"
-                        @click="changePage(currentPage + 1)"
-                        class="px-4 py-2 border text-black rounded transition-transform duration-300 hover:bg-gray-200"
-                    >
-                        Следующая
-                    </button>
-                </div>
+                <button
+                    v-if="currentPage > 1"
+                    @click="changePage(currentPage - 1)"
+                    class="p-2 border text-black rounded transition-transform duration-300 hover:bg-gray-200 flex items-center justify-center"
+                    :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
+                >
+                    <chevron-left-icon size="20" />
+                    <span class="hidden md:inline ml-2">Предыдущая</span>
+                </button>
+                <button
+                    v-if="currentPage < totalPages"
+                    @click="changePage(currentPage + 1)"
+                    class="p-2 border text-black rounded transition-transform duration-300 hover:bg-gray-200 flex items-center justify-center"
+                    :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
+                >
+                    <chevron-right-icon size="20" />
+                    <span class="hidden md:inline ml-2">Следующая</span>
+                </button>
             </div>
         </div>
 
@@ -125,8 +139,14 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="button" @click="showModal = false" class="px-4 py-2 bg-gray-400 text-black rounded mr-2">Отмена</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Сохранить</button>
+                        <button type="button" @click="showModal = false" class="p-2 bg-gray-400 text-black rounded mr-2 flex items-center justify-center" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
+                            <x-icon size="20" />
+                            <span class="hidden md:inline ml-2">Отмена</span>
+                        </button>
+                        <button type="submit" class="p-2 bg-blue-500 text-white rounded flex items-center justify-center" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
+                            <save-icon size="20" />
+                            <span class="hidden md:inline ml-2">Сохранить</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -136,9 +156,29 @@
 
 <script>
 import axios from 'axios';
+import {
+    Search as SearchIcon,
+    Plus as PlusIcon,
+    Edit as EditIcon,
+    Trash2 as Trash2Icon,
+    ChevronLeft as ChevronLeftIcon,
+    ChevronRight as ChevronRightIcon,
+    X as XIcon,
+    Save as SaveIcon
+} from 'lucide-vue-next';
 
 export default {
     name: 'Appeals',
+    components: {
+        SearchIcon,
+        PlusIcon,
+        EditIcon,
+        Trash2Icon,
+        ChevronLeftIcon,
+        ChevronRightIcon,
+        XIcon,
+        SaveIcon
+    },
     data() {
         return {
             roles: [],
