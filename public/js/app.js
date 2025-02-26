@@ -22577,6 +22577,22 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee6, null, [[0, 8]]);
       }))();
+    },
+    statusClass: function statusClass(status) {
+      var statusClasses = {
+        "new": 'bg-blue-500',
+        in_progress: 'bg-yellow-500',
+        resolved: 'bg-green-500'
+      };
+      return statusClasses[status] || 'bg-gray-500';
+    },
+    statusText: function statusText(status) {
+      var statusTexts = {
+        "new": 'Новое',
+        in_progress: 'В процессе',
+        resolved: 'Решено'
+      };
+      return statusTexts[status] || 'Неизвестно';
     }
   }
 });
@@ -23238,7 +23254,7 @@ var _hoisted_24 = {
   "class": "mb-4"
 };
 var _hoisted_25 = {
-  "class": "flex justify-end"
+  "class": "flex justify-between"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_search_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("search-icon");
@@ -23262,13 +23278,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.searchAppeals && $options.searchAppeals.apply($options, arguments);
     }),
     type: "text",
-    "class": "w-full pl-10 pr-4 py-2 border rounded",
+    "class": "w-full pl-10 pr-4 py-2 border border-zinc-300 rounded-lg p-3 flex-grow mr-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-primary transition-transform transform",
     placeholder: "Поиск по ФИО, телефону и т.д."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопка создания новой жалобы "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.createNewAppeal && $options.createNewAppeal.apply($options, arguments);
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-green-500 text-black rounded flex items-center justify-center", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition", {
       'w-12 h-12': true,
       'md:w-auto md:px-4': true
     }])
@@ -23279,12 +23295,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Новая жалоба", -1 /* HOISTED */))])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, "Загрузка...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [$data.filteredAppeals.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredAppeals, function (appeal) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: appeal.id,
-      "class": "border p-4 rounded-lg shadow mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "ФИО:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Телефон:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_phone), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Лиц. счет:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_account), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Описание:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Статус:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.status), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Комментарий:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.comment || 'Нет комментария'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Создано:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(appeal.created_at).toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопки действий "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "p-4 rounded-lg shadow mb-4 bg-gradient-to-br from-zinc-50 to-zinc-100 shadow-xl p-5 transition-transform transform hover:translate-x-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "ФИО:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Телефон:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_phone), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Лиц. счет:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_account), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Описание:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Статус:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.statusClass(appeal.status), "ml-2 px-2 py-1 text-white text-sm rounded-lg"])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.statusText(appeal.status)), 3 /* TEXT, CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Комментарий:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.comment || 'Нет комментария'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Создано:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(appeal.created_at).toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопки действий "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.editAppeal(appeal);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-yellow-500 text-black rounded flex items-center justify-center", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-yellow-500 text-black rounded flex items-center justify-center bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition", {
         'w-12 h-12': true,
         'md:w-auto md:px-4': true
       }])
@@ -23296,7 +23314,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.deleteAppeal(appeal.id);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-red-500 text-white rounded flex items-center justify-center", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition", {
         'w-12 h-12': true,
         'md:w-auto md:px-4': true
       }])
@@ -23336,60 +23354,60 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.isEdit ? $options.updateAppeal() : $options.createAppeal();
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "ФИО клиента", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.currentAppeal.client_name = $event;
     }),
     type: "text",
     required: "",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentAppeal.client_name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Телефон клиента", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.currentAppeal.client_phone = $event;
     }),
     type: "text",
     required: "",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentAppeal.client_phone]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Лицевой счет", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.currentAppeal.client_account = $event;
     }),
     type: "text",
     required: "",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentAppeal.client_account]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Описание проблемы", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.currentAppeal.description = $event;
     }),
     required: "",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentAppeal.description]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Показываем только при редактировании "), $data.isEdit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Ответственное лицо", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.currentAppeal.assigned_to = $event;
     }),
     id: "assigned_to",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.users, function (user) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: user.id,
       value: user.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 9 /* TEXT, PROPS */, _hoisted_22);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentAppeal.assigned_to]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Статус", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.currentAppeal.status = $event;
     }),
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, _cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "new"
   }, "Новое", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
@@ -23397,35 +23415,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "В процессе", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "resolved"
   }, "Решено", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentAppeal.status]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Комментарий", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.currentAppeal.comment = $event;
     }),
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentAppeal.comment]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     onClick: _cache[12] || (_cache[12] = function ($event) {
       return $data.showModal = false;
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-gray-400 text-black rounded mr-2 flex items-center justify-center", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition", {
       'w-12 h-12': true,
       'md:w-auto md:px-4': true
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_x_icon, {
     size: "20"
   }), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "hidden md:inline ml-2"
+    "class": "hidden md:inline ml-2 rounded-lg transition duration-200"
   }, "Отмена", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-blue-500 text-white rounded flex items-center justify-center", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition", {
       'w-12 h-12': true,
       'md:w-auto md:px-4': true
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_save_icon, {
     size: "20"
   }), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "hidden md:inline ml-2"
+    "class": "hidden md:inline ml-2 rounded-lg transition duration-200"
   }, "Сохранить", -1 /* HOISTED */))])])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
@@ -23594,16 +23612,16 @@ var _hoisted_1 = {
   "class": "min-h-screen flex items-center justify-center bg-white"
 };
 var _hoisted_2 = {
-  "class": "w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md border border-green-500"
+  "class": "rounded-lg shadow-lg border-border max-w-sm w-full"
 };
 var _hoisted_3 = {
   "class": "px-6 py-4"
 };
 var _hoisted_4 = {
-  "class": "mt-3 text-xl font-medium text-center text-gray-800"
+  "class": "text-2xl font-bold text-foreground text-center"
 };
 var _hoisted_5 = {
-  "class": "mt-1 text-center text-gray-500"
+  "class": "text-muted-foreground text-center mb-6"
 };
 var _hoisted_6 = {
   "class": "w-full mt-4"
@@ -23624,7 +23642,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "flex justify-center mx-auto"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    "class": "w-auto h-7 sm:h-8",
+    "class": "w-auto h-7 sm:h-8 my-4",
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/MegaFon_logo_without_text.svg/2048px-MegaFon_logo_without_text.svg.png",
     alt: "Logo"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isLogin ? 'Welcome Back' : 'Create an Account'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isLogin ? 'Login to your account' : 'Create a new account'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Сообщение об успехе или ошибке "), $data.message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -23642,7 +23660,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.email = $event;
     }),
-    "class": "block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-green-500 rounded-lg focus:border-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none",
+    "class": "border border-border rounded-lg p-3 mb-4 w-full focus:outline-none focus:ring focus:ring-ring",
     type: "email",
     placeholder: "Email Address",
     "aria-label": "Email Address",
@@ -23651,16 +23669,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.password = $event;
     }),
-    "class": "block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-green-500 rounded-lg focus:border-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none",
+    "class": "border border-border rounded-lg p-3 mb-6 w-full focus:outline-none focus:ring focus:ring-ring",
     type: "password",
     placeholder: "Password",
     "aria-label": "Password",
     required: ""
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.password]])]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "flex items-center justify-between mt-4"
+    "class": "flex items-center justify-between"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                        <a href=\"#\" class=\"text-sm text-gray-600 hover:text-green-600\">Forgot Password?</a>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": "w-full px-6 py-2 my-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+    "class": "w-full p-3 my-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
   }, " Sign In ")], -1 /* HOISTED */))], 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Форма регистрации "), !$data.isLogin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
     key: 2,
     onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
@@ -23884,7 +23902,7 @@ var _hoisted_19 = {
 };
 var _hoisted_20 = ["value"];
 var _hoisted_21 = {
-  "class": "flex justify-end"
+  "class": "flex justify-between"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_search_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("search-icon");
@@ -23908,13 +23926,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.searchUsers && $options.searchUsers.apply($options, arguments);
     }),
     type: "text",
-    "class": "w-full pl-10 pr-4 py-2 border rounded",
+    "class": "w-full pl-10 pr-4 py-2 border border-zinc-300 rounded-lg p-3 flex-grow mr-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-primary transition-transform transform",
     placeholder: "Поиск по имени, email и т.д."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопка создания нового пользователя "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.createNewUser();
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-green-500 text-black rounded flex items-center justify-center", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition", {
       'w-12 h-12': true,
       'md:w-auto md:px-4': true
     }])
@@ -23925,12 +23943,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Новый пользователь", -1 /* HOISTED */))])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, "Загрузка...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [$data.filteredUsers.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredUsers, function (user) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: user.id,
-      "class": "border p-4 rounded-lg shadow mb-4"
+      "class": "p-4 shadow mb-4 p-4 rounded-lg mb-4 bg-gradient-to-br from-zinc-50 to-zinc-100 shadow-xl p-5 transition-transform transform hover:translate-x-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Имя:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Email:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.email), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Роль:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.role.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопки действий "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.editUser(user);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-yellow-500 text-black rounded flex items-center justify-center", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-yellow-500 text-black rounded flex items-center justify-center bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition", {
         'w-12 h-12': true,
         'md:w-auto md:px-4': true
       }])
@@ -23942,7 +23960,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.deleteUser(user.id);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-red-500 text-white rounded flex items-center justify-center", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition", {
         'w-12 h-12': true,
         'md:w-auto md:px-4': true
       }])
@@ -23982,38 +24000,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.isEdit ? $options.updateUser() : $options.createUser();
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Имя", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.currentUser.name = $event;
     }),
     type: "text",
     required: "",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Email", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.currentUser.email = $event;
     }),
     type: "email",
     required: "",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Пароль", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.currentUser.password = $event;
     }),
     type: "password",
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.currentUser.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "block font-semibold"
+    "class": "text-sm font-medium text-muted-foreground"
   }, "Роль", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.currentUser.role = $event;
     }),
-    "class": "w-full border px-4 py-2 rounded"
+    "class": "mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.roles, function (role) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: role.id,
@@ -24024,24 +24042,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[9] || (_cache[9] = function ($event) {
       return $data.showModal = false;
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-gray-400 text-black rounded mr-2 flex items-center justify-center", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition", {
       'w-12 h-12': true,
       'md:w-auto md:px-4': true
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_x_icon, {
     size: "20"
   }), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "hidden md:inline ml-2"
+    "class": "hidden md:inline ml-2 rounded-lg transition duration-200"
   }, "Отмена", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-2 bg-blue-500 text-white rounded flex items-center justify-center", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition", {
       'w-12 h-12': true,
       'md:w-auto md:px-4': true
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_save_icon, {
     size: "20"
   }), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "hidden md:inline ml-2"
+    "class": "hidden md:inline ml-2 rounded-lg transition duration-200"
   }, "Сохранить", -1 /* HOISTED */))])])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 

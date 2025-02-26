@@ -11,7 +11,7 @@
                         v-model="searchQuery"
                         @input="searchUsers"
                         type="text"
-                        class="w-full pl-10 pr-4 py-2 border rounded"
+                        class="w-full pl-10 pr-4 py-2 border border-zinc-300 rounded-lg p-3 flex-grow mr-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-primary transition-transform transform"
                         placeholder="Поиск по имени, email и т.д."
                     />
                 </div>
@@ -20,7 +20,7 @@
             <!-- Кнопка создания нового пользователя -->
             <button
                 @click="createNewUser()"
-                class="p-2 bg-green-500 text-black rounded flex items-center justify-center"
+                class="p-2 bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition"
                 :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
             >
                 <user-plus-icon size="20" />
@@ -34,7 +34,7 @@
                 <div
                     v-for="user in filteredUsers"
                     :key="user.id"
-                    class="border p-4 rounded-lg shadow mb-4"
+                    class="p-4 shadow mb-4 p-4 rounded-lg mb-4 bg-gradient-to-br from-zinc-50 to-zinc-100 shadow-xl p-5 transition-transform transform hover:translate-x-2"
                 >
                     <p><strong>Имя:</strong> {{ user.name }}</p>
                     <p><strong>Email:</strong> {{ user.email }}</p>
@@ -44,7 +44,7 @@
                     <div class="flex text-center mt-2 space-x-2">
                         <button
                             @click="editUser(user)"
-                            class="p-2 bg-yellow-500 text-black rounded flex items-center justify-center"
+                            class="p-2 bg-yellow-500 text-black rounded flex items-center justify-center bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition"
                             :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
                         >
                             <edit-icon size="20" />
@@ -52,7 +52,7 @@
                         </button>
                         <button
                             @click="deleteUser(user.id)"
-                            class="p-2 bg-red-500 text-white rounded flex items-center justify-center"
+                            class="p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
                             :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
                         >
                             <trash-2-icon size="20" />
@@ -94,31 +94,31 @@
                 <h2 class="text-xl font-bold mb-4">{{ isEdit ? 'Редактировать пользователя' : 'Создать нового пользователя' }}</h2>
                 <form @submit.prevent="isEdit ? updateUser() : createUser()">
                     <div class="mb-4">
-                        <label class="block font-semibold">Имя</label>
-                        <input v-model="currentUser.name" type="text" required class="w-full border px-4 py-2 rounded"/>
+                        <label class="text-sm font-medium text-muted-foreground">Имя</label>
+                        <input v-model="currentUser.name" type="text" required class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-semibold">Email</label>
-                        <input v-model="currentUser.email" type="email" required class="w-full border px-4 py-2 rounded"/>
+                        <label class="text-sm font-medium text-muted-foreground">Email</label>
+                        <input v-model="currentUser.email" type="email" required class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-semibold">Пароль</label>
-                        <input v-model="currentUser.password" type="password" class="w-full border px-4 py-2 rounded"/>
+                        <label class="text-sm font-medium text-muted-foreground">Пароль</label>
+                        <input v-model="currentUser.password" type="password" class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-semibold">Роль</label>
-                        <select v-model="currentUser.role" class="w-full border px-4 py-2 rounded">
+                        <label class="text-sm font-medium text-muted-foreground">Роль</label>
+                        <select v-model="currentUser.role" class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200">
                             <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.name }}</option>
                         </select>
                     </div>
-                    <div class="flex justify-end">
-                        <button type="button" @click="showModal = false" class="p-2 bg-gray-400 text-black rounded mr-2 flex items-center justify-center" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
+                    <div class="flex justify-between">
+                        <button type="button" @click="showModal = false" class="p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
                             <x-icon size="20" />
-                            <span class="hidden md:inline ml-2">Отмена</span>
+                            <span class="hidden md:inline ml-2 rounded-lg transition duration-200">Отмена</span>
                         </button>
-                        <button type="submit" class="p-2 bg-blue-500 text-white rounded flex items-center justify-center" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
+                        <button type="submit" class="bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
                             <save-icon size="20" />
-                            <span class="hidden md:inline ml-2">Сохранить</span>
+                            <span class="hidden md:inline ml-2 rounded-lg transition duration-200">Сохранить</span>
                         </button>
                     </div>
                 </form>

@@ -11,7 +11,7 @@
                         v-model="searchQuery"
                         @input="searchAppeals"
                         type="text"
-                        class="w-full pl-10 pr-4 py-2 border rounded"
+                        class="w-full pl-10 pr-4 py-2 border border-zinc-300 rounded-lg p-3 flex-grow mr-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-primary transition-transform transform"
                         placeholder="Поиск по ФИО, телефону и т.д."
                     />
                 </div>
@@ -20,7 +20,7 @@
             <!-- Кнопка создания новой жалобы -->
             <button
                 @click="createNewAppeal"
-                class="p-2 bg-green-500 text-black rounded flex items-center justify-center"
+                class="p-2 bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition"
                 :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
             >
                 <plus-icon size="20" />
@@ -34,13 +34,17 @@
                 <div
                     v-for="appeal in filteredAppeals"
                     :key="appeal.id"
-                    class="border p-4 rounded-lg shadow mb-4"
+                    class="p-4 rounded-lg shadow mb-4 bg-gradient-to-br from-zinc-50 to-zinc-100 shadow-xl p-5 transition-transform transform hover:translate-x-2"
                 >
                     <p><strong>ФИО:</strong> {{ appeal.client_name }}</p>
                     <p><strong>Телефон:</strong> {{ appeal.client_phone }}</p>
                     <p><strong>Лиц. счет:</strong> {{ appeal.client_account }}</p>
                     <p><strong>Описание:</strong> {{ appeal.description }}</p>
-                    <p><strong>Статус:</strong> {{ appeal.status }}</p>
+                    <p><strong>Статус:</strong>
+                        <span :class="statusClass(appeal.status)" class="ml-2 px-2 py-1 text-white text-sm rounded-lg">
+                            {{ statusText(appeal.status) }}
+                        </span>
+                    </p>
                     <p><strong>Комментарий:</strong> {{ appeal.comment || 'Нет комментария' }}</p>
                     <p><strong>Создано:</strong> {{ new Date(appeal.created_at).toLocaleString() }}</p>
 
@@ -48,7 +52,7 @@
                     <div class="flex text-center mt-2 space-x-2">
                         <button
                             @click="editAppeal(appeal)"
-                            class="p-2 bg-yellow-500 text-black rounded flex items-center justify-center"
+                            class="p-2 bg-yellow-500 text-black rounded flex items-center justify-center bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition"
                             :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
                         >
                             <edit-icon size="20" />
@@ -56,7 +60,7 @@
                         </button>
                         <button
                             @click="deleteAppeal(appeal.id)"
-                            class="p-2 bg-red-500 text-white rounded flex items-center justify-center"
+                            class="p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
                             :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}"
                         >
                             <trash-2-icon size="20" />
@@ -98,54 +102,54 @@
                 <h2 class="text-xl font-bold mb-4">{{ isEdit ? 'Редактировать жалобу' : 'Создать новую жалобу' }}</h2>
                 <form @submit.prevent="isEdit ? updateAppeal() : createAppeal()">
                     <div class="mb-4">
-                        <label class="block font-semibold">ФИО клиента</label>
-                        <input v-model="currentAppeal.client_name" type="text" required class="w-full border px-4 py-2 rounded"/>
+                        <label class="text-sm font-medium text-muted-foreground">ФИО клиента</label>
+                        <input v-model="currentAppeal.client_name" type="text" required class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-semibold">Телефон клиента</label>
-                        <input v-model="currentAppeal.client_phone" type="text" required class="w-full border px-4 py-2 rounded"/>
+                        <label class="text-sm font-medium text-muted-foreground">Телефон клиента</label>
+                        <input v-model="currentAppeal.client_phone" type="text" required class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-semibold">Лицевой счет</label>
-                        <input v-model="currentAppeal.client_account" type="text" required class="w-full border px-4 py-2 rounded"/>
+                        <label class="text-sm font-medium text-muted-foreground">Лицевой счет</label>
+                        <input v-model="currentAppeal.client_account" type="text" required class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"/>
                     </div>
                     <div class="mb-4">
-                        <label class="block font-semibold">Описание проблемы</label>
-                        <textarea v-model="currentAppeal.description" required class="w-full border px-4 py-2 rounded"></textarea>
+                        <label class="text-sm font-medium text-muted-foreground">Описание проблемы</label>
+                        <textarea v-model="currentAppeal.description" required class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"></textarea>
                     </div>
 
                     <!-- Показываем только при редактировании -->
                     <div v-if="isEdit">
                         <div class="mb-4">
-                            <label class="block font-semibold">Ответственное лицо</label>
-                            <select v-model="currentAppeal.assigned_to" id="assigned_to" class="w-full border px-4 py-2 rounded">
+                            <label class="text-sm font-medium text-muted-foreground">Ответственное лицо</label>
+                            <select v-model="currentAppeal.assigned_to" id="assigned_to" class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200">
                                 <option v-for="user in users" :key="user.id" :value="user.id">
                                     {{ user.name }}
                                 </option>
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label class="block font-semibold">Статус</label>
-                            <select v-model="currentAppeal.status" class="w-full border px-4 py-2 rounded">
+                            <label class="text-sm font-medium text-muted-foreground">Статус</label>
+                            <select v-model="currentAppeal.status" class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200">
                                 <option value="new">Новое</option>
                                 <option value="in_progress">В процессе</option>
                                 <option value="resolved">Решено</option>
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label class="block font-semibold">Комментарий</label>
-                            <textarea v-model="currentAppeal.comment" class="w-full border px-4 py-2 rounded"></textarea>
+                            <label class="text-sm font-medium text-muted-foreground">Комментарий</label>
+                            <textarea v-model="currentAppeal.comment" class="mt-1 block w-full p-3 border border-slate-400 rounded-md focus:ring-2 focus:ring-ring transition duration-200"></textarea>
                         </div>
                     </div>
 
-                    <div class="flex justify-end">
-                        <button type="button" @click="showModal = false" class="p-2 bg-gray-400 text-black rounded mr-2 flex items-center justify-center" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
+                    <div class="flex justify-between">
+                        <button type="button" @click="showModal = false" class="p-2 bg-red-500 text-white rounded flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
                             <x-icon size="20" />
-                            <span class="hidden md:inline ml-2">Отмена</span>
+                            <span class="hidden md:inline ml-2 rounded-lg transition duration-200">Отмена</span>
                         </button>
-                        <button type="submit" class="p-2 bg-blue-500 text-white rounded flex items-center justify-center" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
+                        <button type="submit" class="bg-green-500 text-black rounded flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 transition" :class="{'w-12 h-12': true, 'md:w-auto md:px-4': true}">
                             <save-icon size="20" />
-                            <span class="hidden md:inline ml-2">Сохранить</span>
+                            <span class="hidden md:inline ml-2 rounded-lg transition duration-200">Сохранить</span>
                         </button>
                     </div>
                 </form>
@@ -328,6 +332,22 @@ export default {
             } catch (error) {
                 console.error('Ошибка при загрузке ролей:', error);
             }
+        },
+        statusClass(status) {
+            const statusClasses = {
+                new: 'bg-blue-500',
+                in_progress: 'bg-yellow-500',
+                resolved: 'bg-green-500'
+            };
+            return statusClasses[status] || 'bg-gray-500';
+        },
+        statusText(status) {
+            const statusTexts = {
+                new: 'Новое',
+                in_progress: 'В процессе',
+                resolved: 'Решено'
+            };
+            return statusTexts[status] || 'Неизвестно';
         }
     },
 };
