@@ -41,7 +41,7 @@
                     <p><strong>Лиц. счет:</strong> {{ appeal.client_account }}</p>
                     <p><strong>Описание:</strong> {{ appeal.description }}</p>
                     <p><strong>Статус:</strong>
-                        <span :class="statusClass(appeal.status)" class="ml-2 px-2 py-1 text-white text-sm rounded-lg">
+                        <span :class="statusClass(appeal.status)" class="px-2 py-1 text-md font-medium rounded-lg">
                             {{ statusText(appeal.status) }}
                         </span>
                     </p>
@@ -292,23 +292,20 @@ export default {
                     this.currentAppeal,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
-                window.location.reload();
                 console.log("Ответ сервера:", response.data);
                 this.showModal = false;
             } catch (error) {
                 console.error("Ошибка при создании жалобы:", error.response?.data || error);
             }
         },
-        async deleteAppeal(id) {
-            const isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
-            if (!isConfirmed) return;
 
+        async deleteAppeal(id) {
             try {
                 const token = localStorage.getItem('authToken');
                 await axios.delete(`http://localhost:8000/api/appeals/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                this.fetchAppeals();
+                this.fetchAppeals(); // Обновление списка жалоб
             } catch (error) {
                 console.error('Ошибка при удалении жалобы:', error);
             }
@@ -338,9 +335,9 @@ export default {
         },
         statusClass(status) {
             const statusClasses = {
-                new: 'bg-blue-500',
-                in_progress: 'bg-yellow-500',
-                resolved: 'bg-green-500'
+                new: 'text-blue-500',
+                in_progress: 'text-yellow-500',
+                resolved: 'text-green-500'
             };
             return statusClasses[status] || 'bg-gray-500';
         },

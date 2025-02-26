@@ -22468,57 +22468,49 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 5:
               response = _context3.sent;
-              window.location.reload();
               console.log("Ответ сервера:", response.data);
               _this3.showModal = false;
-              _context3.next = 14;
+              _context3.next = 13;
               break;
-            case 11:
-              _context3.prev = 11;
+            case 10:
+              _context3.prev = 10;
               _context3.t0 = _context3["catch"](1);
               console.error("Ошибка при создании жалобы:", ((_error$response = _context3.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.data) || _context3.t0);
-            case 14:
+            case 13:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[1, 11]]);
+        }, _callee3, null, [[1, 10]]);
       }))();
     },
     deleteAppeal: function deleteAppeal(id) {
       var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var isConfirmed, token;
+        var token;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
-              if (isConfirmed) {
-                _context4.next = 3;
-                break;
-              }
-              return _context4.abrupt("return");
-            case 3:
-              _context4.prev = 3;
+              _context4.prev = 0;
               token = localStorage.getItem('authToken');
-              _context4.next = 7;
+              _context4.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/appeals/".concat(id), {
                 headers: {
                   Authorization: "Bearer ".concat(token)
                 }
               });
-            case 7:
-              _this4.fetchAppeals();
-              _context4.next = 13;
+            case 4:
+              _this4.fetchAppeals(); // Обновление списка жалоб
+              _context4.next = 10;
               break;
-            case 10:
-              _context4.prev = 10;
-              _context4.t0 = _context4["catch"](3);
+            case 7:
+              _context4.prev = 7;
+              _context4.t0 = _context4["catch"](0);
               console.error('Ошибка при удалении жалобы:', _context4.t0);
-            case 13:
+            case 10:
             case "end":
               return _context4.stop();
           }
-        }, _callee4, null, [[3, 10]]);
+        }, _callee4, null, [[0, 7]]);
       }))();
     },
     fetchRoles: function fetchRoles() {
@@ -22586,9 +22578,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     statusClass: function statusClass(status) {
       var statusClasses = {
-        "new": 'bg-blue-500',
-        in_progress: 'bg-yellow-500',
-        resolved: 'bg-green-500'
+        "new": 'text-blue-500',
+        in_progress: 'text-yellow-500',
+        resolved: 'text-green-500'
       };
       return statusClasses[status] || 'bg-gray-500';
     },
@@ -23310,7 +23302,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: appeal.id,
       "class": "p-4 rounded-lg shadow mb-4 bg-gradient-to-br from-zinc-50 to-zinc-100 shadow-xl p-5 transition-transform transform hover:translate-x-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "ФИО:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Телефон:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_phone), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Лиц. счет:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.client_account), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Описание:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Статус:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.statusClass(appeal.status), "ml-2 px-2 py-1 text-white text-sm rounded-lg"])
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.statusClass(appeal.status), "px-2 py-1 text-md font-medium rounded-lg"])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.statusText(appeal.status)), 3 /* TEXT, CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Комментарий:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(appeal.comment || 'Нет комментария'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Создано:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(appeal.created_at).toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Кнопки действий "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.editAppeal(appeal);
