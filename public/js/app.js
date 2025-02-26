@@ -22331,9 +22331,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       currentPage: 1,
       totalPages: 1,
       showModal: false,
-      // Показывать модальное окно
       isEdit: false,
-      // Флаг редактирования
       currentAppeal: {
         client_name: '',
         client_phone: '',
@@ -22351,7 +22349,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     this.fetchUsers();
     this.fetchRoles();
   },
-  methods: {
+  methods: _defineProperty(_defineProperty(_defineProperty({
     fetchAppeals: function fetchAppeals() {
       var _arguments = arguments,
         _this = this;
@@ -22577,24 +22575,58 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee6, null, [[0, 8]]);
       }))();
-    },
-    statusClass: function statusClass(status) {
-      var statusClasses = {
-        "new": 'bg-blue-500',
-        in_progress: 'bg-yellow-500',
-        resolved: 'bg-green-500'
-      };
-      return statusClasses[status] || 'bg-gray-500';
-    },
-    statusText: function statusText(status) {
-      var statusTexts = {
-        "new": 'Новое',
-        in_progress: 'В процессе',
-        resolved: 'Решено'
-      };
-      return statusTexts[status] || 'Неизвестно';
     }
-  }
+  }, "deleteAppeal", function deleteAppeal(id) {
+    var _this7 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+      var isConfirmed, token;
+      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+        while (1) switch (_context7.prev = _context7.next) {
+          case 0:
+            isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
+            if (isConfirmed) {
+              _context7.next = 3;
+              break;
+            }
+            return _context7.abrupt("return");
+          case 3:
+            _context7.prev = 3;
+            token = localStorage.getItem('authToken');
+            _context7.next = 7;
+            return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/appeals/".concat(id), {
+              headers: {
+                Authorization: "Bearer ".concat(token)
+              }
+            });
+          case 7:
+            _this7.fetchAppeals();
+            _context7.next = 13;
+            break;
+          case 10:
+            _context7.prev = 10;
+            _context7.t0 = _context7["catch"](3);
+            console.error('Ошибка при удалении жалобы:', _context7.t0);
+          case 13:
+          case "end":
+            return _context7.stop();
+        }
+      }, _callee7, null, [[3, 10]]);
+    }))();
+  }), "statusClass", function statusClass(status) {
+    var statusClasses = {
+      "new": 'bg-blue-500',
+      in_progress: 'bg-yellow-500',
+      resolved: 'bg-green-500'
+    };
+    return statusClasses[status] || 'bg-gray-500';
+  }), "statusText", function statusText(status) {
+    var statusTexts = {
+      "new": 'Новое',
+      in_progress: 'В процессе',
+      resolved: 'Решено'
+    };
+    return statusTexts[status] || 'Неизвестно';
+  })
 });
 
 /***/ }),
@@ -23078,31 +23110,38 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     deleteUser: function deleteUser(id) {
       var _this5 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var token;
+        var isConfirmed, token;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.prev = 0;
+              isConfirmed = confirm('Вы уверены, что хотите удалить этого пользователя?');
+              if (isConfirmed) {
+                _context5.next = 3;
+                break;
+              }
+              return _context5.abrupt("return");
+            case 3:
+              _context5.prev = 3;
               token = localStorage.getItem('authToken');
-              _context5.next = 4;
+              _context5.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/users/".concat(id), {
                 headers: {
                   Authorization: "Bearer ".concat(token)
                 }
               });
-            case 4:
-              _this5.fetchUsers();
-              _context5.next = 10;
-              break;
             case 7:
-              _context5.prev = 7;
-              _context5.t0 = _context5["catch"](0);
-              console.error('Ошибка при удалении пользователя:', _context5.t0);
+              _this5.fetchUsers();
+              _context5.next = 13;
+              break;
             case 10:
+              _context5.prev = 10;
+              _context5.t0 = _context5["catch"](3);
+              console.error('Ошибка при удалении пользователя:', _context5.t0);
+            case 13:
             case "end":
               return _context5.stop();
           }
-        }, _callee5, null, [[0, 7]]);
+        }, _callee5, null, [[3, 10]]);
       }))();
     }
   }

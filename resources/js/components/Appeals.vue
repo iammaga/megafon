@@ -193,8 +193,8 @@ export default {
             searchQuery: '',
             currentPage: 1,
             totalPages: 1,
-            showModal: false, // Показывать модальное окно
-            isEdit: false, // Флаг редактирования
+            showModal: false,
+            isEdit: false,
             currentAppeal: {
                 client_name: '',
                 client_phone: '',
@@ -331,6 +331,20 @@ export default {
                 this.users = response.data.data; // Предполагаем, что API возвращает массив ролей
             } catch (error) {
                 console.error('Ошибка при загрузке ролей:', error);
+            }
+        },
+        async deleteAppeal(id) {
+            const isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
+            if (!isConfirmed) return;
+
+            try {
+                const token = localStorage.getItem('authToken');
+                await axios.delete(`http://localhost:8000/api/appeals/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                this.fetchAppeals();
+            } catch (error) {
+                console.error('Ошибка при удалении жалобы:', error);
             }
         },
         statusClass(status) {

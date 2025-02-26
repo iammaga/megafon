@@ -272,10 +272,13 @@ export default {
         },
 
         async deleteUser(id) {
+            const isConfirmed = confirm('Вы уверены, что хотите удалить этого пользователя?');
+            if (!isConfirmed) return;
+
             try {
                 const token = localStorage.getItem('authToken');
                 await axios.delete(`http://localhost:8000/api/users/${id}`, {
-                    headers: {Authorization: `Bearer ${token}`},
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 this.fetchUsers();
             } catch (error) {
