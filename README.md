@@ -75,7 +75,7 @@ npm run prod
 
 ## Используемые технологии
 - **Backend**: Laravel 8
-- **Frontend**: Vue.js 3, Vue Router, Vuex
+- **Frontend**: Vue.js 3, Vue Router, Vuex, Lucide Vue Next
 - **API аутентификация**: Laravel Sanctum
 - **Сборка**: Laravel Mix
 - **База данных**: MySQL
