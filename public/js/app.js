@@ -22349,7 +22349,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     this.fetchUsers();
     this.fetchRoles();
   },
-  methods: _defineProperty(_defineProperty(_defineProperty({
+  methods: {
     fetchAppeals: function fetchAppeals() {
       var _arguments = arguments,
         _this = this;
@@ -22468,49 +22468,57 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 5:
               response = _context3.sent;
+              window.location.reload();
               console.log("Ответ сервера:", response.data);
               _this3.showModal = false;
-              _context3.next = 13;
+              _context3.next = 14;
               break;
-            case 10:
-              _context3.prev = 10;
+            case 11:
+              _context3.prev = 11;
               _context3.t0 = _context3["catch"](1);
               console.error("Ошибка при создании жалобы:", ((_error$response = _context3.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.data) || _context3.t0);
-            case 13:
+            case 14:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[1, 10]]);
+        }, _callee3, null, [[1, 11]]);
       }))();
     },
     deleteAppeal: function deleteAppeal(id) {
       var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var token;
+        var isConfirmed, token;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
+              isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
+              if (isConfirmed) {
+                _context4.next = 3;
+                break;
+              }
+              return _context4.abrupt("return");
+            case 3:
+              _context4.prev = 3;
               token = localStorage.getItem('authToken');
-              _context4.next = 4;
+              _context4.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/appeals/".concat(id), {
                 headers: {
                   Authorization: "Bearer ".concat(token)
                 }
               });
-            case 4:
-              _this4.fetchAppeals(); // Обновление списка жалоб
-              _context4.next = 10;
-              break;
             case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4["catch"](0);
-              console.error('Ошибка при удалении жалобы:', _context4.t0);
+              _this4.fetchAppeals();
+              _context4.next = 13;
+              break;
             case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](3);
+              console.error('Ошибка при удалении жалобы:', _context4.t0);
+            case 13:
             case "end":
               return _context4.stop();
           }
-        }, _callee4, null, [[0, 7]]);
+        }, _callee4, null, [[3, 10]]);
       }))();
     },
     fetchRoles: function fetchRoles() {
@@ -22575,58 +22583,24 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee6, null, [[0, 8]]);
       }))();
+    },
+    statusClass: function statusClass(status) {
+      var statusClasses = {
+        "new": 'bg-blue-500',
+        in_progress: 'bg-yellow-500',
+        resolved: 'bg-green-500'
+      };
+      return statusClasses[status] || 'bg-gray-500';
+    },
+    statusText: function statusText(status) {
+      var statusTexts = {
+        "new": 'Новое',
+        in_progress: 'В процессе',
+        resolved: 'Решено'
+      };
+      return statusTexts[status] || 'Неизвестно';
     }
-  }, "deleteAppeal", function deleteAppeal(id) {
-    var _this7 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-      var isConfirmed, token;
-      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-        while (1) switch (_context7.prev = _context7.next) {
-          case 0:
-            isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
-            if (isConfirmed) {
-              _context7.next = 3;
-              break;
-            }
-            return _context7.abrupt("return");
-          case 3:
-            _context7.prev = 3;
-            token = localStorage.getItem('authToken');
-            _context7.next = 7;
-            return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/appeals/".concat(id), {
-              headers: {
-                Authorization: "Bearer ".concat(token)
-              }
-            });
-          case 7:
-            _this7.fetchAppeals();
-            _context7.next = 13;
-            break;
-          case 10:
-            _context7.prev = 10;
-            _context7.t0 = _context7["catch"](3);
-            console.error('Ошибка при удалении жалобы:', _context7.t0);
-          case 13:
-          case "end":
-            return _context7.stop();
-        }
-      }, _callee7, null, [[3, 10]]);
-    }))();
-  }), "statusClass", function statusClass(status) {
-    var statusClasses = {
-      "new": 'bg-blue-500',
-      in_progress: 'bg-yellow-500',
-      resolved: 'bg-green-500'
-    };
-    return statusClasses[status] || 'bg-gray-500';
-  }), "statusText", function statusText(status) {
-    var statusTexts = {
-      "new": 'Новое',
-      in_progress: 'В процессе',
-      resolved: 'Решено'
-    };
-    return statusTexts[status] || 'Неизвестно';
-  })
+  }
 });
 
 /***/ }),
