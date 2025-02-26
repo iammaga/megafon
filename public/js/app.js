@@ -22470,7 +22470,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               response = _context3.sent;
               console.log("Ответ сервера:", response.data);
               _this3.showModal = false;
-              location.reload();
+              window.location.reload();
               _context3.next = 14;
               break;
             case 11:
@@ -22487,31 +22487,38 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     deleteAppeal: function deleteAppeal(id) {
       var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var token;
+        var isConfirmed, token;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.prev = 0;
+              isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
+              if (isConfirmed) {
+                _context4.next = 3;
+                break;
+              }
+              return _context4.abrupt("return");
+            case 3:
+              _context4.prev = 3;
               token = localStorage.getItem('authToken');
-              _context4.next = 4;
+              _context4.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("http://localhost:8000/api/appeals/".concat(id), {
                 headers: {
                   Authorization: "Bearer ".concat(token)
                 }
               });
-            case 4:
-              _this4.fetchAppeals(); // Обновление списка жалоб
-              _context4.next = 10;
-              break;
             case 7:
-              _context4.prev = 7;
-              _context4.t0 = _context4["catch"](0);
-              console.error('Ошибка при удалении жалобы:', _context4.t0);
+              _this4.fetchAppeals();
+              _context4.next = 13;
+              break;
             case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](3);
+              console.error('Ошибка при удалении жалобы:', _context4.t0);
+            case 13:
             case "end":
               return _context4.stop();
           }
-        }, _callee4, null, [[0, 7]]);
+        }, _callee4, null, [[3, 10]]);
       }))();
     },
     fetchRoles: function fetchRoles() {

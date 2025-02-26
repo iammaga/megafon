@@ -294,19 +294,22 @@ export default {
                 );
                 console.log("Ответ сервера:", response.data);
                 this.showModal = false;
-                location.reload();
+                window.location.reload();
             } catch (error) {
                 console.error("Ошибка при создании жалобы:", error.response?.data || error);
             }
         },
 
         async deleteAppeal(id) {
+            const isConfirmed = confirm('Вы уверены, что хотите удалить эту запись?');
+            if (!isConfirmed) return;
+
             try {
                 const token = localStorage.getItem('authToken');
                 await axios.delete(`http://localhost:8000/api/appeals/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                this.fetchAppeals(); // Обновление списка жалоб
+                this.fetchAppeals();
             } catch (error) {
                 console.error('Ошибка при удалении жалобы:', error);
             }
