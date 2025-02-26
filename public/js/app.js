@@ -22470,17 +22470,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               response = _context3.sent;
               console.log("Ответ сервера:", response.data);
               _this3.showModal = false;
-              _context3.next = 13;
+              location.reload();
+              _context3.next = 14;
               break;
-            case 10:
-              _context3.prev = 10;
+            case 11:
+              _context3.prev = 11;
               _context3.t0 = _context3["catch"](1);
               console.error("Ошибка при создании жалобы:", ((_error$response = _context3.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.data) || _context3.t0);
-            case 13:
+            case 14:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[1, 10]]);
+        }, _callee3, null, [[1, 11]]);
       }))();
     },
     deleteAppeal: function deleteAppeal(id) {

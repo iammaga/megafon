@@ -294,6 +294,7 @@ export default {
                 );
                 console.log("Ответ сервера:", response.data);
                 this.showModal = false;
+                location.reload();
             } catch (error) {
                 console.error("Ошибка при создании жалобы:", error.response?.data || error);
             }
