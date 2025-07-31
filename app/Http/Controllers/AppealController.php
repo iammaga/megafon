@@ -32,7 +32,7 @@ class AppealController extends Controller
     {
         $request->validate([
             'client_name' => 'required|string|max:255',
-            'client_phone' => 'required|string|max:20',
+            'client_phone' => 'required|digits_between:7,15',
             'client_account' => 'required|string|max:50',
             'description' => 'required|string',
         ]);
@@ -80,6 +80,10 @@ class AppealController extends Controller
             'status' => 'nullable|in:new,in_progress,resolved',
             'assigned_to' => 'nullable|exists:users,id',
             'comment' => 'nullable|string',
+            'client_name' => 'required|string|max:255',
+            'client_phone' => 'required|digits_between:7,15',
+            'description' => 'nullable|string|max:1000',
+            'client_account' => 'nullable|string|max:50',
         ]);
 
         $appeal->update($data);
@@ -93,7 +97,7 @@ class AppealController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appeal  $appeal)
+    public function destroy(Appeal $appeal)
     {
         $this->authorize('delete', $appeal);
 
