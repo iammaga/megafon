@@ -11,16 +11,16 @@
             <ul class="hidden md:flex space-x-4">
                 <li v-if="isAdmin">
                     <button @click="goToAppeals"
-                            class="flex justify-center items-center w-12 h-12 border text-black rounded transition duration-300 hover:bg-gray-100">
+                            class="flex items-center space-x-2 px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100">
                         <message-square-icon size="20" />
-                        <span class="sr-only">Обращения</span>
+                        <span class="text-sm">Обращения</span>
                     </button>
                 </li>
                 <li v-if="isAdmin">
                     <button @click="goToUsers"
-                            class="flex justify-center items-center w-12 h-12 border text-black rounded transition duration-300 hover:bg-gray-100">
+                            class="flex items-center space-x-2 px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100">
                         <users-icon size="20" />
-                        <span class="sr-only">Пользователи</span>
+                        <span class="text-sm">Пользователи</span>
                     </button>
                 </li>
             </ul>

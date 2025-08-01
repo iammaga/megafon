@@ -23531,20 +23531,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.goToAppeals && $options.goToAppeals.apply($options, arguments);
     }),
-    "class": "flex justify-center items-center w-12 h-12 border text-black rounded transition duration-300 hover:bg-gray-100"
+    "class": "flex items-center space-x-2 px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_message_square_icon, {
     size: "20"
   }), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "sr-only"
+    "class": "text-sm"
   }, "Обращения", -1 /* HOISTED */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.isAdmin ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.goToUsers && $options.goToUsers.apply($options, arguments);
     }),
-    "class": "flex justify-center items-center w-12 h-12 border text-black rounded transition duration-300 hover:bg-gray-100"
+    "class": "flex items-center space-x-2 px-4 py-2 border text-black rounded transition duration-300 hover:bg-gray-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_users_icon, {
     size: "20"
   }), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "sr-only"
+    "class": "text-sm"
   }, "Пользователи", -1 /* HOISTED */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.toggleMenu && $options.toggleMenu.apply($options, arguments);
